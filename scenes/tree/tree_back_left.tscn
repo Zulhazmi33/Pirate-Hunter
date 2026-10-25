@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://knbt06rtvgt0"]
+
+[ext_resource type="Texture2D" uid="uid://dutlar2wnnr5m" path="res://assets/images/island/background/tree/back_left.png" id="1_cfhw1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8elp2"]
+atlas = ExtResource("1_cfhw1")
+region = Rect2(0, 0, 51, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cytjj"]
+atlas = ExtResource("1_cfhw1")
+region = Rect2(51, 0, 51, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pprmh"]
+atlas = ExtResource("1_cfhw1")
+region = Rect2(102, 0, 51, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gk201"]
+atlas = ExtResource("1_cfhw1")
+region = Rect2(153, 0, 51, 53)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ibbfc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8elp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cytjj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pprmh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gk201")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="TreeBack_left" type="CharacterBody2D" unique_id=1066395285]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=667492062]
+texture_filter = 1
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_ibbfc")
+autoplay = "default"
+frame_progress = 0.5334331

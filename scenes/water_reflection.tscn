@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://bo1qfa2wl153j"]
+
+[ext_resource type="Texture2D" uid="uid://cucv1gir76n7y" path="res://assets/images/island/background/water/water_small.png" id="1_lvj6q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2eep4"]
+atlas = ExtResource("1_lvj6q")
+region = Rect2(0, 0, 35, 3)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpbcd"]
+atlas = ExtResource("1_lvj6q")
+region = Rect2(35, 0, 35, 3)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvdcu"]
+atlas = ExtResource("1_lvj6q")
+region = Rect2(70, 0, 35, 3)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1go3g"]
+atlas = ExtResource("1_lvj6q")
+region = Rect2(105, 0, 35, 3)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ibbfc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2eep4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpbcd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvdcu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1go3g")
+}],
+"loop": 2,
+"name": &"default",
+"speed": 3.0
+}]
+
+[node name="Water_reflection" type="CharacterBody2D" unique_id=316164489]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=659909041]
+texture_filter = 1
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_ibbfc")
+autoplay = "default"
+frame_progress = 0.7255921

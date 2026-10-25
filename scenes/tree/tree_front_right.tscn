@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://teuyvwrc3wbx"]
+
+[ext_resource type="Texture2D" uid="uid://diljpaywvsjd2" path="res://assets/images/island/background/tree/Front Palm Bottom and Grass (32x32).png" id="1_amtjb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ibbfc"]
+size = Vector2(28, 38)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cgyim"]
+size = Vector2(122, 24)
+
+[node name="TreeFront_right" type="CharacterBody2D" unique_id=1066395285]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=357529588]
+texture_filter = 1
+scale = Vector2(3, 3)
+texture = ExtResource("1_amtjb")
+region_enabled = true
+region_rect = Rect2(40, 0, 56, 24)
+
+[node name="CollisionShape2D_1" type="CollisionShape2D" parent="." unique_id=364811503]
+position = Vector2(-54, -15)
+shape = SubResource("RectangleShape2D_ibbfc")
+
+[node name="CollisionShape2D_2" type="CollisionShape2D" parent="." unique_id=270944795]
+position = Vector2(7, 12)
+shape = SubResource("RectangleShape2D_cgyim")
