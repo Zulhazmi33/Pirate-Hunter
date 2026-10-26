@@ -38,6 +38,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ibbfc"]
+size = Vector2(159.5, 169)
+
 [node name="TreeBack_right" type="CharacterBody2D" unique_id=1066395285]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=667492062]
@@ -46,3 +49,8 @@ scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
 autoplay = "default"
 frame_progress = 0.92651343
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=298320044]
+position = Vector2(3.25, 3.5)
+shape = SubResource("RectangleShape2D_ibbfc")
+disabled = true

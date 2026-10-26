@@ -8,8 +8,8 @@ var start_x_1: float
 var start_x_2: float
 var start_x_3: float
 
-@export var speed: float = 2.0
-@export var distance: float = 3.0
+@export var speed: float = 1.0
+@export var distance: float = 10.0
 
 func _ready() -> void:
 	start_x_1 = water_reflect_1.position.x

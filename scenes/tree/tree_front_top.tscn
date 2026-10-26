@@ -1,21 +1,21 @@
 [gd_scene format=3 uid="uid://dck2dlcknb7og"]
 
-[ext_resource type="Texture2D" uid="uid://cdsp00lohpcnj" path="res://assets/images/island/background/tree/front.png" id="1_pawxv"]
+[ext_resource type="Texture2D" uid="uid://cdsp00lohpcnj" path="res://assets/images/island/background/tree/front.png" id="1_j3vor"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yd267"]
-atlas = ExtResource("1_pawxv")
+atlas = ExtResource("1_j3vor")
 region = Rect2(0, 0, 39, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g8m5t"]
-atlas = ExtResource("1_pawxv")
+atlas = ExtResource("1_j3vor")
 region = Rect2(39, 0, 39, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7oqv6"]
-atlas = ExtResource("1_pawxv")
+atlas = ExtResource("1_j3vor")
 region = Rect2(78, 0, 39, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4irdy"]
-atlas = ExtResource("1_pawxv")
+atlas = ExtResource("1_j3vor")
 region = Rect2(117, 0, 39, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_de5dk"]
@@ -39,9 +39,9 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ibbfc"]
-size = Vector2(112, 66)
+size = Vector2(71, 66)
 
-[node name="TreeFront_main" type="CharacterBody2D" unique_id=2129618474]
+[node name="TreeFront_top" type="CharacterBody2D" unique_id=2129618474]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2045170643]
 texture_filter = 1
@@ -51,5 +51,6 @@ autoplay = "default"
 frame_progress = 0.27505362
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=662706533]
-position = Vector2(0, -13)
+position = Vector2(0.5, -13)
 shape = SubResource("RectangleShape2D_ibbfc")
+one_way_collision = true

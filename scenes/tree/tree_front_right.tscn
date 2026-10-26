@@ -20,7 +20,9 @@ region_rect = Rect2(40, 0, 56, 24)
 [node name="CollisionShape2D_1" type="CollisionShape2D" parent="." unique_id=364811503]
 position = Vector2(-54, -15)
 shape = SubResource("RectangleShape2D_ibbfc")
+disabled = true
 
 [node name="CollisionShape2D_2" type="CollisionShape2D" parent="." unique_id=270944795]
 position = Vector2(7, 12)
 shape = SubResource("RectangleShape2D_cgyim")
+disabled = true

@@ -17,3 +17,4 @@ region_rect = Rect2(8, 0, 16, 64)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1121630924]
 position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_ibbfc")
+disabled = true
