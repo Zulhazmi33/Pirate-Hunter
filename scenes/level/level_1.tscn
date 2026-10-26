@@ -601,10 +601,3 @@ tile_set = SubResource("TileSet_ibbfc")
 
 [node name="Player" parent="." unique_id=1478314835 instance=ExtResource("3_u8rbc")]
 position = Vector2(96, 968)
-
-[node name="Camera2D" type="Camera2D" parent="Player" unique_id=2098534130]
-position = Vector2(50, -130)
-zoom = Vector2(1.3, 1.3)
-limit_right = 3840
-limit_bottom = 1440
-limit_smoothed = true

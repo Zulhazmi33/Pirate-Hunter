@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://melbsejal7lx"]
+
+[ext_resource type="Texture2D" uid="uid://c1206akq4qjic" path="res://assets/images/life bars/lifeBar_player.png" id="1_pd7y0"]
+[ext_resource type="Texture2D" uid="uid://djphpbar1kexu" path="res://assets/images/life bars/color_red.png" id="2_a8fcq"]
+
+[node name="lifebar_player" type="Node2D" unique_id=1192740705]
+
+[node name="shell" type="NinePatchRect" parent="." unique_id=550181928]
+texture_filter = 1
+offset_left = -475.0
+offset_top = -275.0
+offset_right = -325.0
+offset_bottom = -230.0
+scale = Vector2(2, 2)
+texture = ExtResource("1_pd7y0")
+region_rect = Rect2(0, 0, 96, 32)
+patch_margin_left = 20
+patch_margin_right = 20
+
+[node name="energy" type="TextureRect" parent="." unique_id=242615872]
+texture_filter = 1
+offset_left = -440.0
+offset_top = -235.0
+offset_right = -190.0
+offset_bottom = -230.0
+texture = ExtResource("2_a8fcq")

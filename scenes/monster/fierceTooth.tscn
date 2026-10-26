@@ -1,29 +1,29 @@
 [gd_scene format=3 uid="uid://bowpovypvrlq1"]
 
-[ext_resource type="Script" uid="uid://dcv36b8ybo2c2" path="res://scripts/fierce_tooth.gd" id="1_4ruf7"]
+[ext_resource type="Script" uid="uid://dcv36b8ybo2c2" path="res://scripts/fierceTooth.gd" id="1_4ruf7"]
 [ext_resource type="Texture2D" uid="uid://w8tbk4avupff" path="res://assets/images/monster/fierceTooth/idle.png" id="1_o71jh"]
 [ext_resource type="Texture2D" uid="uid://cb17k7jbvjrir" path="res://assets/images/monster/fierceTooth/attack.png" id="1_uo7da"]
 [ext_resource type="Texture2D" uid="uid://g0e0ircbljeq" path="res://assets/images/monster/fierceTooth/hit.png" id="3_4ruf7"]
 [ext_resource type="Texture2D" uid="uid://1nfy00nq2nas" path="res://assets/images/monster/fierceTooth/run.png" id="4_vq8pp"]
 [ext_resource type="Texture2D" uid="uid://dsbrvjmb7b5d4" path="res://assets/images/monster/fierceTooth/jump.png" id="5_vq8pp"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ayq32"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vq8pp"]
 atlas = ExtResource("1_uo7da")
 region = Rect2(0, 0, 34, 30)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_54sbx"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayq32"]
 atlas = ExtResource("1_uo7da")
 region = Rect2(34, 0, 34, 30)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g3xad"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_54sbx"]
 atlas = ExtResource("1_uo7da")
 region = Rect2(68, 0, 34, 30)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2opd5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3xad"]
 atlas = ExtResource("1_uo7da")
 region = Rect2(102, 0, 34, 30)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_i0h0t"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2opd5"]
 atlas = ExtResource("1_uo7da")
 region = Rect2(136, 0, 34, 30)
 
@@ -115,6 +115,9 @@ region = Rect2(170, 0, 34, 30)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_vq8pp")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ayq32")
 }, {
 "duration": 1.0,
@@ -125,9 +128,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2opd5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i0h0t")
 }],
 "loop": 1,
 "name": &"attack",
@@ -234,9 +234,9 @@ script = ExtResource("1_4ruf7")
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
-animation = &"run"
+animation = &"attack"
 autoplay = "idle"
-frame_progress = 0.17313412
+frame_progress = 0.90787303
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=271963828]
 position = Vector2(2.5, 6)
@@ -246,6 +246,7 @@ one_way_collision = true
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1340888484]
 
 [node name="Collision" type="CollisionShape2D" parent="DetectionArea" unique_id=2070541945]
+visible = false
 shape = SubResource("RectangleShape2D_4ruf7")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=629259509]

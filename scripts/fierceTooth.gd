@@ -24,7 +24,11 @@ var player: CharacterBody2D = null
 var player_in_attack_area: bool = false
 var player_visible: bool = false
 
+# Attack
+@export var DAMAGE: float = 300.0
 
+
+# Initial
 func _ready():
 	# Patrol
 	patrol_start_x = global_position.x
@@ -37,14 +41,20 @@ func _ready():
 	attack_area.body_entered.connect(_on_attack_area_body_entered)
 	attack_area.body_exited.connect(_on_attack_area_body_exited)
 
+	# Detect attack animation frame
+	sprite.frame_changed.connect(_on_attack_frame_changed)
+
 	# Initial detection position
 	update_detection_area()
 
 
+# Logic for physics
 func _physics_process(delta):
 
 	# Animation FPS
-	if is_chasing:
+	if sprite.animation == "attack":
+		sprite.speed_scale = 1.0
+	elif is_chasing:
 		sprite.speed_scale = 15.0 / 7.0
 	else:
 		sprite.speed_scale = 1.0
@@ -160,6 +170,8 @@ func can_see_player() -> bool:
 	return false
 
 
+#region --> Built-in detection method
+
 func _on_detection_area_body_entered(body):
 	if body.name == "Player":
 		player = body
@@ -180,3 +192,31 @@ func _on_attack_area_body_entered(body):
 func _on_attack_area_body_exited(body):
 	if body == player:
 		player_in_attack_area = false
+
+#endregion
+
+
+#region --> Attack damage
+
+func _on_attack_frame_changed() -> void:
+	# Only deal damage during the attack animation
+	if sprite.animation != "attack":
+		return
+
+	# Only deal damage on frame 0
+	if sprite.frame != 0:
+		return
+
+	# Player must still be inside attack range
+	if not player_in_attack_area:
+		return
+
+	# Make sure we have a Player reference
+	if player == null:
+		return
+
+	# Deal damage
+	#player.take_damage(DAMAGE)
+	player.take_damage(DAMAGE, global_position)
+
+#endregion
