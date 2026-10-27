@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var detection_area: Area2D = $DetectionArea
 @onready var attack_area: Area2D = $AttackArea
 
+#movement
 @export var SPEED: float = 200.0
 @export var JUMP_VELOCITY: float = -900.0
 
@@ -25,7 +26,10 @@ var player_in_attack_area: bool = false
 var player_visible: bool = false
 
 # Attack
-@export var DAMAGE: float = 300.0
+@export var DAMAGE: float = 50.0
+
+#sound
+@onready var sound_bite: AudioStreamPlayer2D = $Bite
 
 
 # Initial
@@ -215,8 +219,18 @@ func _on_attack_frame_changed() -> void:
 	if player == null:
 		return
 
+	# Ignore if Player is dead
+	if player.isDead:
+		return
+		
+	# Ignore if Player is invincible
+	if player.invincible:
+		return
+
+	# Bite sound
+	#sound_bite.play(0.20)
+
 	# Deal damage
-	#player.take_damage(DAMAGE)
-	player.take_damage(DAMAGE, global_position)
+	#player.take_damage(DAMAGE, global_position)
 
 #endregion

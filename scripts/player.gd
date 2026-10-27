@@ -33,6 +33,7 @@ var health: float = 250.0
 var isDead: bool = false
 var invincible: bool = false
 var invincible_timer: float = 0.0
+var invincible_flash_timer: float = 0.0
 
 # knockback
 @export var KNOCKBACK_FORCE: float = 600.0
@@ -73,10 +74,17 @@ func _physics_process(delta: float) -> void:
 	# Invincibility timer
 	if invincible:
 		invincible_timer -= delta
+		invincible_flash_timer -= delta
+
+		# Flash white
+		if invincible_flash_timer <= 0:
+			invincible_flash_timer = 0.1
+			player.modulate = Color.WHITE if player.modulate != Color.WHITE else Color(1, 1, 1, 0.5)
 
 		if invincible_timer <= 0:
 			invincible = false
-
+			player.modulate = Color.WHITE
+		
 	# Knockback timer
 	if knockback_timer > 0:
 		knockback_timer -= delta
