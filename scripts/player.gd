@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 # character
 @onready var player: AnimatedSprite2D = $Player_attack
+@onready var attack_area: Area2D = $AttackArea
 
 # dust particle
 @onready var dust_jump: AnimatedSprite2D = $Dust_particle/Dust_jump
@@ -18,6 +19,7 @@ var attack_effects: Array[AnimatedSprite2D]
 var attack_index := 0
 var attacking := false
 var attack_queued := false
+@export var DAMAGE: float = 50.0
 
 # sound
 @onready var sound_jump: AudioStreamPlayer2D = $Jump
@@ -40,27 +42,38 @@ var invincible_flash_timer: float = 0.0
 @export var KNOCKBACK_UP: float = 200.0
 var knockback_timer: float = 0.0
 
+#detection
+@onready var collision: CollisionShape2D = $Collision
+var enemy: CharacterBody2D = null
+
+
 
 #region -> starter
 func _ready() -> void:
+	
+	#looping atack's  combo
 	attack_effects = [
 		dust_attack_1,
 		dust_attack_2,
 		dust_attack_3
 	]
+	for effect in attack_effects:
+		effect.visible = false
+		effect.animation_finished.connect(_on_attack_effect_animation_finished)
 
 	# Hide particles/effects
 	dust_jump.visible = false
 	dust_run.visible = false
 
-	for effect in attack_effects:
-		effect.visible = false
-		effect.animation_finished.connect(_on_attack_effect_animation_finished)
-
 	# Animation signals
 	player.animation_finished.connect(_on_animation_finished)
 	dust_jump.animation_finished.connect(_on_dust_animation_finished)
 	dust_run.animation_finished.connect(_on_dust_animation_finished)
+	
+	#attack range
+	attack_area.body_entered.connect(_on_attack_area_body_entered)
+	attack_area.body_exited.connect(_on_attack_area_body_exited)
+	
 #endregion
 
 
@@ -130,9 +143,7 @@ func _physics_process(delta: float) -> void:
 		attack_queued = false
 
 	# 7) Normal animation
-	#if not attacking and player.animation != "hit":
 	if not attacking and player.animation != "hit" and not isDead:
-
 		play_normal_animation()
 
 	was_on_floor = is_on_floor()
@@ -141,7 +152,6 @@ func _physics_process(delta: float) -> void:
 
 #region -> Attack
 func handle_attack() -> void:
-
 	# Air attack
 	if not is_on_floor():
 		attacking = true
@@ -159,8 +169,12 @@ func handle_attack() -> void:
 	if attack_index < 3:
 		attack_queued = true
 func play_ground_attack(index: int) -> void:
+	if enemy != null:
+		enemy.take_damage(DAMAGE, global_position)
+		
 	player.play("attack_" + str(index))
 	play_attack_effect(index)
+	
 func play_attack_effect(index: int) -> void:
 	var effect = attack_effects[index - 1]
 
@@ -229,30 +243,27 @@ func _on_attack_effect_animation_finished() -> void:
 #endregion
 
 
-#region -> Health
+#region -> Reduce health
 func take_damage(damage: float, attacker_position: Vector2) -> void:
-
-	# Ignore damage while invincible
 	if invincible || isDead:
 		return
 
-	# Reduce health
 	health -= damage
+	energy.size.x = health
 
-	# Start invincibility
 	invincible = true
 	invincible_timer = 1.0
 
-	# Knockback direction
-	var knockback_direction = sign(global_position.x - attacker_position.x)
+	# Cancel current attack
+	attacking = false
+	attack_queued = false
+	attack_index = 0
 
+	var knockback_direction = sign(global_position.x - attacker_position.x)
 	velocity.x = knockback_direction * KNOCKBACK_FORCE
 	velocity.y = -KNOCKBACK_UP
-
-	# Keep knockback for a short time
 	knockback_timer = 0.2
 
-	# Play hit animation
 	player.play("hit")
 
 	if health <= 0:
@@ -261,6 +272,14 @@ func take_damage(damage: float, attacker_position: Vector2) -> void:
 		isDead = true
 		player.play("dead")
 		sound_death.play()
-	else:
-		energy.size.x = health
+#endregion
+
+
+#region -> Detect enemy
+func _on_attack_area_body_entered(body):
+	if body.name.begins_with("fierceTooth"):
+		enemy = body
+
+func _on_attack_area_body_exited(body):
+	enemy = null
 #endregion

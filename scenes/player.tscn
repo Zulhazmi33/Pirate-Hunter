@@ -465,6 +465,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o5uju"]
 size = Vector2(62, 84.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g3xad"]
+size = Vector2(120, 98)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_4r5pv"]
 atlas = ExtResource("13_qfm1y")
 region = Rect2(0, 0, 52, 20)
@@ -754,13 +757,21 @@ script = ExtResource("1_3v2ag")
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
-animation = &"dead"
+animation = &"attack_3"
 autoplay = "idle"
+frame = 2
+frame_progress = 1.0
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=2044098937]
 visible = false
 position = Vector2(-1, -7.25)
 shape = SubResource("RectangleShape2D_o5uju")
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=1924727366]
+
+[node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=41699245]
+position = Vector2(60, -11)
+shape = SubResource("RectangleShape2D_g3xad")
 
 [node name="Dust_particle" type="Node2D" parent="." unique_id=1648057377]
 
@@ -805,7 +816,7 @@ frame_progress = 0.3610926
 [node name="attack_3" type="AnimatedSprite2D" parent="Attack_effect" unique_id=961634927]
 visible = false
 texture_filter = 1
-position = Vector2(86.00001, 0)
+position = Vector2(72, 0)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_xubig")
 animation = &"attack"

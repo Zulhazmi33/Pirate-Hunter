@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://w8tbk4avupff" path="res://assets/images/monster/fierceTooth/idle.png" id="1_o71jh"]
 [ext_resource type="Texture2D" uid="uid://cb17k7jbvjrir" path="res://assets/images/monster/fierceTooth/attack.png" id="1_uo7da"]
 [ext_resource type="Texture2D" uid="uid://g0e0ircbljeq" path="res://assets/images/monster/fierceTooth/hit.png" id="3_4ruf7"]
+[ext_resource type="Texture2D" uid="uid://d3k484myi3tnm" path="res://assets/images/monster/fierceTooth/dead.png" id="3_g3xad"]
 [ext_resource type="Texture2D" uid="uid://1nfy00nq2nas" path="res://assets/images/monster/fierceTooth/run.png" id="4_vq8pp"]
 [ext_resource type="Texture2D" uid="uid://dsbrvjmb7b5d4" path="res://assets/images/monster/fierceTooth/jump.png" id="5_vq8pp"]
 [ext_resource type="AudioStream" uid="uid://fo3b0s7mh3oa" path="res://sounds/bite.wav" id="7_ayq32"]
@@ -27,6 +28,26 @@ region = Rect2(102, 0, 34, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2opd5"]
 atlas = ExtResource("1_uo7da")
+region = Rect2(136, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i0h0t"]
+atlas = ExtResource("3_g3xad")
+region = Rect2(0, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhhq2"]
+atlas = ExtResource("3_g3xad")
+region = Rect2(34, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uir0o"]
+atlas = ExtResource("3_g3xad")
+region = Rect2(68, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7m2kv"]
+atlas = ExtResource("3_g3xad")
+region = Rect2(102, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4t3fu"]
+atlas = ExtResource("3_g3xad")
 region = Rect2(136, 0, 34, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a0qwp"]
@@ -137,6 +158,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_i0h0t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhhq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uir0o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7m2kv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4t3fu")
+}],
+"loop": 0,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_a0qwp")
 }, {
 "duration": 1.0,
@@ -148,7 +189,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_q8sj4")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"hit",
 "speed": 7.0
 }, {
@@ -226,7 +267,7 @@ size = Vector2(59, 66)
 size = Vector2(750, 300)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ibbfc"]
-radius = 58.463665
+radius = 60.0
 
 [node name="fierceTooth" type="CharacterBody2D" unique_id=2086322676]
 collision_mask = 3
@@ -236,8 +277,10 @@ script = ExtResource("1_4ruf7")
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
-animation = &"idle"
+animation = &"dead"
 autoplay = "idle"
+frame = 4
+frame_progress = 1.0
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=271963828]
 visible = false
@@ -254,7 +297,6 @@ shape = SubResource("RectangleShape2D_4ruf7")
 [node name="AttackArea" type="Area2D" parent="." unique_id=629259509]
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=1681160855]
-visible = false
 shape = SubResource("CircleShape2D_ibbfc")
 
 [node name="Bite" type="AudioStreamPlayer2D" parent="." unique_id=1854252288]
