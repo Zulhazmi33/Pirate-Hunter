@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://jesup625bsnw" path="res://assets/images/player/attack/sword_effect/attack_1.png" id="16_4r5pv"]
 [ext_resource type="Texture2D" uid="uid://c1vr6rl8b636" path="res://assets/images/player/attack/sword_effect/attack_2.png" id="17_60mlk"]
 [ext_resource type="Texture2D" uid="uid://lkrlntcn618s" path="res://assets/images/player/attack/sword_effect/attack_3.png" id="17_i4ail"]
+[ext_resource type="PackedScene" uid="uid://dgty2luhf0lux" path="res://scenes/ability/bubble.tscn" id="17_pf23h"]
 [ext_resource type="Texture2D" uid="uid://b5gnlwgp0ssaq" path="res://assets/images/player/attack/sword_effect/aerial_1.png" id="19_a38lo"]
 [ext_resource type="Texture2D" uid="uid://mhgrgjo86hpu" path="res://assets/images/player/attack/sword_effect/aerial_2.png" id="20_4ni07"]
 [ext_resource type="PackedScene" uid="uid://melbsejal7lx" path="res://scenes/lifebar/lifebar_player.tscn" id="23_4ni07"]
@@ -466,7 +467,7 @@ animations = [{
 size = Vector2(62, 84.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g3xad"]
-size = Vector2(120, 98)
+size = Vector2(100, 98)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4r5pv"]
 atlas = ExtResource("13_qfm1y")
@@ -751,26 +752,31 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=1478314835]
+collision_mask = 11
 script = ExtResource("1_3v2ag")
 
-[node name="Player_attack" type="AnimatedSprite2D" parent="." unique_id=1145116650]
+[node name="Player" type="AnimatedSprite2D" parent="." unique_id=1145116650]
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
-animation = &"attack_3"
+animation = &"idle"
 autoplay = "idle"
-frame = 2
-frame_progress = 1.0
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=2044098937]
 visible = false
 position = Vector2(-1, -7.25)
 shape = SubResource("RectangleShape2D_o5uju")
 
+[node name="ArrowSpawn" type="Marker2D" parent="." unique_id=1075141554]
+position = Vector2(100, 0)
+
+[node name="Bubble" parent="." unique_id=1620796632 instance=ExtResource("17_pf23h")]
+
 [node name="AttackArea" type="Area2D" parent="." unique_id=1924727366]
+collision_mask = 2
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=41699245]
-position = Vector2(60, -11)
+position = Vector2(51.5, -11)
 shape = SubResource("RectangleShape2D_g3xad")
 
 [node name="Dust_particle" type="Node2D" parent="." unique_id=1648057377]

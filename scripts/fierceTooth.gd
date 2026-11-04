@@ -3,6 +3,8 @@ extends CharacterBody2D
 @onready var fierceTooth: AnimatedSprite2D = $Monster
 @onready var detection_area: Area2D = $DetectionArea
 @onready var attack_area: Area2D = $AttackArea
+@onready var attack_collision: CollisionShape2D = $AttackArea/Collision
+@onready var attack_collision_x: float = abs($AttackArea/Collision.position.x)
 
 #lifebar
 @onready var lifebar_enemy: Node2D = $lifebar_enemy
@@ -48,6 +50,7 @@ var invincible_flash_timer: float = 0.0
 var knockback_timer: float = 0.0
 
 
+
 #region --> Initial
 func _ready():
 	
@@ -68,8 +71,9 @@ func _ready():
 	# Detect attack animation frame
 	fierceTooth.frame_changed.connect(_on_attack_frame_changed)
 
-	# Initial detection position
+	# Update areas based on facing direction
 	update_detection_area()
+	update_attack_area()
 #endregion
 
 
@@ -165,18 +169,23 @@ func _physics_process(delta):
 
 		# Update DetectionArea based on facing direction
 		update_detection_area()
+		update_attack_area()
 
 		# Jump when hitting an obstacle
 		if is_chasing and is_on_wall() and is_on_floor():
 			var collision = get_last_slide_collision()
 
-			if collision != null and collision.get_collider() != player:
-				var normal = collision.get_normal()
+			if collision != null:
+				var collider = collision.get_collider()
 
-				# Only jump when hitting a wall from the side
-				if abs(normal.x) > 0.5:
-					velocity.y = JUMP_VELOCITY
-					fierceTooth.play("jump")
+				# Ignore Player and Bubble
+				if collider != player and collider.name != "Bubble":
+					var normal = collision.get_normal()
+
+					# Only jump when hitting a wall from the side
+					if abs(normal.x) > 0.5:
+						velocity.y = JUMP_VELOCITY
+						fierceTooth.play("jump")
 
 	# Move
 	move_and_slide()
@@ -189,6 +198,12 @@ func update_detection_area():
 		detection_area.position.x = DETECTION_OFFSET - DETECTION_BACK_OFFSET
 	else:
 		detection_area.position.x = -DETECTION_OFFSET + DETECTION_BACK_OFFSET
+		
+func update_attack_area():
+	if fierceTooth.flip_h:
+		attack_collision.position.x = attack_collision_x
+	else:
+		attack_collision.position.x = -attack_collision_x
 #endregion
 
 
@@ -248,8 +263,8 @@ func _on_attack_frame_changed() -> void:
 	if fierceTooth.animation != "attack":
 		return
 
-	# Only deal damage on frame 0
-	if fierceTooth.frame != 0:
+	# Only deal damage on frame 3
+	if fierceTooth.frame != 11:
 		return
 
 	# Player must still be inside attack range

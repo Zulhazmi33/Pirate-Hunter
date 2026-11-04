@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://sob3yaqaf0u6" path="res://scripts/diamond.gd" id="1_a3dco"]
 [ext_resource type="Texture2D" uid="uid://hya0co530q6t" path="res://assets/images/collectible/golden_coin.png" id="3_6kx7x"]
 [ext_resource type="Texture2D" uid="uid://q8xlbvkerumk" path="res://assets/images/collectible/diamond_effect.png" id="3_no8ln"]
+[ext_resource type="AudioStream" uid="uid://cyjbhilbr4qh1" path="res://assets/sounds/collect_coin.wav" id="4_1ucd8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pndfm"]
 atlas = ExtResource("3_no8ln")
@@ -90,3 +91,4 @@ position = Vector2(2, 1)
 shape = SubResource("CircleShape2D_dgsyi")
 
 [node name="Collected" type="AudioStreamPlayer2D" parent="." unique_id=231992567]
+stream = ExtResource("4_1ucd8")

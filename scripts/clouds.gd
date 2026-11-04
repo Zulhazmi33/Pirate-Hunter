@@ -33,3 +33,19 @@ func _process(delta: float) -> void:
 	small_cloud_7.position.x -= speed_7 * delta
 	small_cloud_8.position.x -= speed_8 * delta
 	small_cloud_9.position.x -= speed_9 * delta
+
+	# Reset clouds when they leave the screen
+	reset_cloud(small_cloud_1)
+	reset_cloud(small_cloud_2)
+	reset_cloud(small_cloud_3)
+	reset_cloud(small_cloud_4)
+	reset_cloud(small_cloud_5)
+	reset_cloud(small_cloud_6)
+	reset_cloud(small_cloud_7)
+	reset_cloud(small_cloud_8)
+	reset_cloud(small_cloud_9)
+
+
+func reset_cloud(cloud: Sprite2D) -> void:
+	if cloud.position.x < -500:
+		cloud.position.x = 3840

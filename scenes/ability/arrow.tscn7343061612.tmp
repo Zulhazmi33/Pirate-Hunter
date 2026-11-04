@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://jovkp5fv52ba"]
+
+[ext_resource type="Script" uid="uid://1jwl64rtenc0" path="res://scripts/arrow.gd" id="1_q7ayk"]
+[ext_resource type="Texture2D" uid="uid://df10ego03utvt" path="res://assets/images/ability/arrow.png" id="1_yjjkx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7ayk"]
+atlas = ExtResource("1_yjjkx")
+region = Rect2(0, 0, 480, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47cvs"]
+atlas = ExtResource("1_yjjkx")
+region = Rect2(480, 0, 480, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_byy3f"]
+atlas = ExtResource("1_yjjkx")
+region = Rect2(960, 0, 480, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvm3i"]
+atlas = ExtResource("1_yjjkx")
+region = Rect2(1440, 0, 480, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_urclt"]
+atlas = ExtResource("1_yjjkx")
+region = Rect2(0, 360, 480, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rq87b"]
+atlas = ExtResource("1_yjjkx")
+region = Rect2(480, 360, 480, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xojqe"]
+atlas = ExtResource("1_yjjkx")
+region = Rect2(960, 360, 480, 360)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bm5cd"]
+atlas = ExtResource("1_yjjkx")
+region = Rect2(1440, 360, 480, 360)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ibbfc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q7ayk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_47cvs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_byy3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvm3i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_urclt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rq87b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xojqe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bm5cd")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 20.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q7ayk"]
+size = Vector2(275, 200)
+
+[node name="Arrow" type="CharacterBody2D" unique_id=146750811]
+scale = Vector2(0.3, 0.3)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_q7ayk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1177966398]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_ibbfc")
+frame_progress = 0.90387833
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=917648734]
+position = Vector2(-81, -1)
+shape = SubResource("RectangleShape2D_q7ayk")

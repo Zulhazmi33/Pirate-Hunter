@@ -10,6 +10,18 @@
 [ext_resource type="AudioStream" uid="uid://fo3b0s7mh3oa" path="res://sounds/bite.wav" id="7_ayq32"]
 [ext_resource type="PackedScene" uid="uid://je7s84co4aya" path="res://scenes/lifebar/lifebar_enemy.tscn" id="8_54sbx"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_mogu6"]
+atlas = ExtResource("1_uo7da")
+region = Rect2(68, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2opd5"]
+atlas = ExtResource("1_uo7da")
+region = Rect2(136, 0, 34, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_824hw"]
+atlas = ExtResource("1_uo7da")
+region = Rect2(34, 0, 34, 30)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_vq8pp"]
 atlas = ExtResource("1_uo7da")
 region = Rect2(0, 0, 34, 30)
@@ -25,10 +37,6 @@ region = Rect2(68, 0, 34, 30)
 [sub_resource type="AtlasTexture" id="AtlasTexture_g3xad"]
 atlas = ExtResource("1_uo7da")
 region = Rect2(102, 0, 34, 30)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2opd5"]
-atlas = ExtResource("1_uo7da")
-region = Rect2(136, 0, 34, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i0h0t"]
 atlas = ExtResource("3_g3xad")
@@ -138,6 +146,15 @@ region = Rect2(170, 0, 34, 30)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_mogu6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2opd5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_824hw")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_vq8pp")
 }, {
 "duration": 1.0,
@@ -148,9 +165,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_g3xad")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2opd5")
 }],
 "loop": 0,
 "name": &"attack",
@@ -266,20 +280,21 @@ size = Vector2(59, 66)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ruf7"]
 size = Vector2(750, 300)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ibbfc"]
-radius = 60.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q27gu"]
+size = Vector2(50, 74)
 
 [node name="fierceTooth" type="CharacterBody2D" unique_id=2086322676]
-collision_mask = 3
+collision_layer = 2
+collision_mask = 13
 script = ExtResource("1_4ruf7")
 
 [node name="Monster" type="AnimatedSprite2D" parent="." unique_id=485707012]
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
-animation = &"dead"
+animation = &"attack"
 autoplay = "idle"
-frame = 4
+frame = 6
 frame_progress = 1.0
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=271963828]
@@ -297,7 +312,8 @@ shape = SubResource("RectangleShape2D_4ruf7")
 [node name="AttackArea" type="Area2D" parent="." unique_id=629259509]
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=1681160855]
-shape = SubResource("CircleShape2D_ibbfc")
+position = Vector2(-25, 1)
+shape = SubResource("RectangleShape2D_q27gu")
 
 [node name="Bite" type="AudioStreamPlayer2D" parent="." unique_id=1854252288]
 stream = ExtResource("7_ayq32")

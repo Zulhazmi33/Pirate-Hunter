@@ -1,8 +1,10 @@
 extends CharacterBody2D
 
 # character
-@onready var player: AnimatedSprite2D = $Player_attack
+@onready var player: AnimatedSprite2D = $Player
 @onready var attack_area: Area2D = $AttackArea
+@onready var attack_collision: CollisionShape2D = $AttackArea/Collision
+@onready var attack_collision_x: float = abs($AttackArea/Collision.position.x)
 
 # dust particle
 @onready var dust_jump: AnimatedSprite2D = $Dust_particle/Dust_jump
@@ -46,11 +48,21 @@ var knockback_timer: float = 0.0
 @onready var collision: CollisionShape2D = $Collision
 var enemy: CharacterBody2D = null
 
+#ability
+#bubble
+@onready var bubble: CharacterBody2D = $Bubble
+var bubble_tween: Tween
+var bubble_visible := false
+#arrow
+@export var water_arrow_scene: PackedScene = preload("uid://jovkp5fv52ba")
+@onready var arrow_spawn: Marker2D = $ArrowSpawn
 
 
 #region -> starter
 func _ready() -> void:
-	
+	#hide bubble
+	bubble.hide()
+	bubble.scale = Vector2(0.1, 0.1)
 	#looping atack's  combo
 	attack_effects = [
 		dust_attack_1,
@@ -126,12 +138,25 @@ func _physics_process(delta: float) -> void:
 			velocity.x = direction * SPEED
 			player.flip_h = direction < 0
 
+			# Move attack collision based on direction
+			attack_collision.position.x = -attack_collision_x if player.flip_h else attack_collision_x
+
+			# Move arrow spawn based on direction
+			arrow_spawn.position.x = -abs(arrow_spawn.position.x) if player.flip_h else abs(arrow_spawn.position.x)
+			
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	# 4) Attack
 	if Input.is_action_just_pressed("attack") and knockback_timer <= 0:
 		handle_attack()
+		
+	# 4.1) Bubble ability
+	if Input.is_action_just_pressed("shield"):
+		toggle_bubble()
+	# 4.2 Water Arrow
+	if Input.is_action_just_pressed("shoot"):
+		shoot_arrow()
 
 	# 5) Move player
 	move_and_slide()
@@ -150,7 +175,7 @@ func _physics_process(delta: float) -> void:
 #endregion
 
 
-#region -> Attack
+#region -> Attack damage
 func handle_attack() -> void:
 	# Air attack
 	if not is_on_floor():
@@ -168,6 +193,7 @@ func handle_attack() -> void:
 	# Queue next attack
 	if attack_index < 3:
 		attack_queued = true
+		
 func play_ground_attack(index: int) -> void:
 	if enemy != null:
 		enemy.take_damage(DAMAGE, global_position)
@@ -277,9 +303,67 @@ func take_damage(damage: float, attacker_position: Vector2) -> void:
 
 #region -> Detect enemy
 func _on_attack_area_body_entered(body):
+	print("Player detected: ", body.name)
 	if body.name.begins_with("fierceTooth"):
 		enemy = body
 
 func _on_attack_area_body_exited(body):
 	enemy = null
+#endregion
+
+
+#region -> Ability
+func toggle_bubble() -> void:
+
+	# Prevent previous animation from interfering
+	if bubble_tween:
+		bubble_tween.kill()
+
+	bubble_visible = !bubble_visible
+
+	if bubble_visible:
+		bubble.show()
+		bubble.set_physics_process(true)
+		bubble.set_collision_layer_value(3, true)
+		bubble.set_collision_mask_value(2, true)
+
+		bubble_tween = create_tween()
+		bubble_tween.tween_property(
+			bubble,
+			"scale",
+			Vector2(1.0, 1.0),
+			1
+		).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	else:
+		bubble_tween = create_tween()
+		bubble_tween.tween_property(
+			bubble,
+			"scale",
+			Vector2(0.1, 0.1),
+			0.3
+		).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+
+		bubble_tween.tween_callback(func():
+			bubble.hide()
+			bubble.set_physics_process(false)
+			bubble.set_collision_layer_value(3, false)
+			bubble.set_collision_mask_value(2, false)
+		)
+
+func shoot_arrow() -> void:
+
+	var arrow = water_arrow_scene.instantiate()
+
+	get_tree().current_scene.add_child(arrow)
+
+	# Set spawn position based on player direction
+	arrow.global_position = arrow_spawn.global_position
+
+	# Set arrow direction
+	arrow.direction = -1.0 if player.flip_h else 1.0
+
+	# Flip arrow sprite
+	arrow.arrow.flip_h = !player.flip_h
+
 #endregion
