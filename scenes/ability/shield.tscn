@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dgty2luhf0lux"]
 
-[ext_resource type="Texture2D" uid="uid://b1ndorxgx15nq" path="res://assets/images/ability/bubble_1.png" id="1_8jg74"]
-[ext_resource type="Texture2D" uid="uid://762pjlqu16e2" path="res://assets/images/ability/bubble_2.png" id="2_p3ey0"]
+[ext_resource type="Texture2D" uid="uid://b1ndorxgx15nq" path="res://assets/images/ability/shield_1.png" id="1_8jg74"]
+[ext_resource type="Texture2D" uid="uid://762pjlqu16e2" path="res://assets/images/ability/shield_2.png" id="2_p3ey0"]
 
 [sub_resource type="GDScript" id="GDScript_8jg74"]
 script/source = "extends CharacterBody2D
@@ -106,7 +106,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ibbfc"]
 radius = 105.0
 
-[node name="Bubble" type="CharacterBody2D" unique_id=1620796632]
+[node name="Shield" type="CharacterBody2D" unique_id=1620796632]
 collision_mask = 2
 script = SubResource("GDScript_8jg74")
 

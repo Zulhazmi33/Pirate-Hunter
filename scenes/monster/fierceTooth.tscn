@@ -304,7 +304,6 @@ shape = SubResource("RectangleShape2D_ibbfc")
 one_way_collision = true
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1340888484]
-visible = false
 
 [node name="Collision" type="CollisionShape2D" parent="DetectionArea" unique_id=2070541945]
 shape = SubResource("RectangleShape2D_4ruf7")

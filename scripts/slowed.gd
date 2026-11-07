@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@onready var bind: AnimatedSprite2D = $AnimatedSprite2D
+@onready var slowed: AnimatedSprite2D = $AnimatedSprite2D
 
 #detection
 @onready var attack_area: Area2D = $AttackArea

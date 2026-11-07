@@ -18,7 +18,7 @@ extends CharacterBody2D
 @export var JUMP_VELOCITY: float = -900.0
 @export var PATROL_SPEED: float = 100.0
 @export var PATROL_DISTANCE: float = 200.0
-@export var DETECTION_OFFSET: float = 200.0
+@export var DETECTION_OFFSET: float = 275.0
 @export var DETECTION_BACK_OFFSET: float = -100.0
 
 var patrol_start_x: float
@@ -186,7 +186,7 @@ func handle_movement() -> void:
 
 		if collision:
 			var collider = collision.get_collider()
-			if collider != null and collider != player and collider.name != "Bubble":
+			if collider != null and collider != player and collider.name != "Shield":
 
 				if abs(collision.get_normal().x) > 0.5:
 					#velocity.y = JUMP_VELOCITY
@@ -221,7 +221,7 @@ func can_see_player() -> bool:
 	var result = get_world_2d().direct_space_state.intersect_ray(query)
 
 	return not result.is_empty() and (
-		result.collider == player or result.collider.name == "Bubble"
+		result.collider == player or result.collider.name == "Shield"
 	)
 
 #endregion
@@ -230,7 +230,7 @@ func can_see_player() -> bool:
 #region -> Detect Player
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	if body.name == "Player" or body.name == "Bubble":
+	if body.name == "Player" or body.name == "Shield":
 		player = body
 
 
@@ -267,21 +267,10 @@ func _on_attack_frame_changed() -> void:
 	sound_bite.play(0.20)
 	player.take_damage(DAMAGE, global_position)
 
-func slow_movement() -> void:
-	if isDead:
-		return
-		
-	is_slowed = true
-	slow_timer = slow_duration
-	
-	
-	# Blue / wet appearance
-	fierceTooth.modulate = Color(0.5, 0.75, 1.0, 1.0)
 #endregion
 
 
 #region -> Reduce Health
-
 func take_damage(damage: float, attacker_position: Vector2) -> void:
 	health -= damage
 	energy.size.x = health
@@ -320,5 +309,15 @@ func take_damage(damage: float, attacker_position: Vector2) -> void:
 
 	if not isDead:
 		fierceTooth.play("idle")
+
+func slow_movement() -> void:
+	if isDead:
+		return
+		
+	is_slowed = true
+	slow_timer = slow_duration
+	
+	# Blue / wet appearance
+	fierceTooth.modulate = Color(0.5, 0.75, 1.0, 1.0)
 
 #endregion

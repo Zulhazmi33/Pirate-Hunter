@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cum43eu8al3up"
-path="res://.godot/imported/bind.png-e9d20c81839604e05bf49a497ba5e492.ctex"
+uid="uid://dlk88se38ms2o"
+path="res://.godot/imported/Slowed.png-0dbc6584d7183379ae4228d46c49467f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/ability/bind.png"
-dest_files=["res://.godot/imported/bind.png-e9d20c81839604e05bf49a497ba5e492.ctex"]
+source_file="res://assets/images/icon/Slowed.png"
+dest_files=["res://.godot/imported/Slowed.png-0dbc6584d7183379ae4228d46c49467f.ctex"]
 
 [params]
 

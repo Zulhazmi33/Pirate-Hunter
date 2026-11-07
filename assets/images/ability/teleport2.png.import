@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfiagvu1jlpbt"
-path="res://.godot/imported/Bubble.png-b03947289ccaa77beba4dd92e42230ed.ctex"
+uid="uid://d0v38gm2lup0l"
+path="res://.godot/imported/teleport2.png-f114482c9bb69c98e4922f2750bbdbfc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/icon/Bubble.png"
-dest_files=["res://.godot/imported/Bubble.png-b03947289ccaa77beba4dd92e42230ed.ctex"]
+source_file="res://assets/images/ability/teleport2.png"
+dest_files=["res://.godot/imported/teleport2.png-f114482c9bb69c98e4922f2750bbdbfc.ctex"]
 
 [params]
 

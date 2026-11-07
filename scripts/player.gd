@@ -5,6 +5,7 @@ extends CharacterBody2D
 # Character
 @onready var player: AnimatedSprite2D = $Player
 @onready var attack_area: Area2D = $AttackArea
+@onready var detection_area: Area2D = $DetectionArea
 @onready var attack_collision: CollisionShape2D = $AttackArea/Collision
 @onready var attack_collision_x: float = abs(attack_collision.position.x)
 
@@ -24,7 +25,6 @@ var was_on_floor := false
 var attack_index := 0
 var attacking := false
 var attack_queued := false
-var enemy: CharacterBody2D = null
 
 # Sound
 @onready var sound_jump: AudioStreamPlayer2D = $Jump
@@ -48,25 +48,31 @@ var invincible_flash_timer := 0.0
 @export var KNOCKBACK_UP: float = 200.0
 var knockback_timer := 0.0
 
-# Bubble
-@onready var bubble: CharacterBody2D = $Bubble
-var bubble_tween: Tween
-var bubble_visible := false
+# Shield
+@onready var shield: CharacterBody2D = $Shield
+var shield_tween: Tween
+var shield_visible := false
 
 # Projectile
+@export_enum("knife", "arrow", "slowed", "shield") var projectileType: String = "knife"
+#var projectile_types = ["knife", "arrow", "slowed", "shield"]
+var projectile_types = ["slowed", "shield"]
+@onready var ability_icon: TextureRect = $Camera2D/CanvasLayer/Panel/TextureRect
 @export var scene_arrow: PackedScene = preload("res://scenes/ability/arrow.tscn")
 @export var scene_knife: PackedScene = preload("res://scenes/ability/knife.tscn")
-@export var scene_bind: PackedScene = preload("res://scenes/ability/bind.tscn")
+@export var scene_slowed: PackedScene = preload("res://scenes/ability/slowed.tscn")
 @onready var throw_spawn: Marker2D = $ThrowSpawn
-@export_enum("knife", "arrow", "bind", "bubble") var projectileType: String = "knife"
 
-# Icon
-@onready var ability_icon: TextureRect = $Camera2D/CanvasLayer/Panel/TextureRect
 
+# Enemy detection
+var nearby_enemies: Array[CharacterBody2D] = []
+var enemy: CharacterBody2D = null
+
+@export var TELEPORT_DISTANCE: float = 60.0
 var icon_arrow = preload("res://assets/images/icon/Arrow.png")
 var icon_knife = preload("res://assets/images/icon/Knife.png")
-var icon_bind = preload("res://assets/images/icon/Bind.png")
-var icon_bubble = preload("res://assets/images/icon/Bubble.png")
+var icon_slowed = preload("res://assets/images/icon/Slowed.png")
+var icon_shield = preload("res://assets/images/icon/Shield.png")
 
 #endregion
 
@@ -75,8 +81,8 @@ var icon_bubble = preload("res://assets/images/icon/Bubble.png")
 func _ready() -> void:
 	ability_icon.texture = icon_knife
 	
-	bubble.hide()
-	bubble.scale = Vector2(0.1, 0.1)
+	shield.hide()
+	shield.scale = Vector2(0.1, 0.1)
 
 	for effect in attack_effects:
 		effect.hide()
@@ -89,6 +95,9 @@ func _ready() -> void:
 	player.animation_finished.connect(_on_animation_finished)
 	player.frame_changed.connect(_on_player_frame_changed)
 
+	#Detection signals
+	detection_area.body_entered.connect(_on_detection_area_body_entered)
+	detection_area.body_exited.connect(_on_detection_area_body_exited)
 	attack_area.body_entered.connect(_on_attack_area_body_entered)
 	attack_area.body_exited.connect(_on_attack_area_body_exited)
 #endregion
@@ -96,9 +105,13 @@ func _ready() -> void:
 
 #region -> Physics
 func _physics_process(delta: float) -> void:
+	#if dead, ignore
 	if isDead:
 		return
 
+	if Input.is_action_just_pressed("teleport"):
+		teleport_to_random_enemy()
+		
 	update_invincibility(delta)
 
 	knockback_timer = maxf(knockback_timer - delta, 0.0)
@@ -185,6 +198,73 @@ func _on_attack_effect_animation_finished() -> void:
 		effect.hide()
 #endregion
 
+#region -> Detect Player
+
+func _on_detection_area_body_entered(body: Node2D) -> void:
+	if body.name.begins_with("fierceTooth"):
+		nearby_enemies.append(body)
+
+
+func _on_detection_area_body_exited(body: Node2D) -> void:
+	if body in nearby_enemies:
+		nearby_enemies.erase(body)
+	
+func get_nearest_enemy() -> CharacterBody2D:
+	var nearest_enemy: CharacterBody2D = null
+	var nearest_distance := INF
+
+	for target in nearby_enemies:
+		if not is_instance_valid(target):
+			continue
+
+		var distance = global_position.distance_to(target.global_position)
+
+		if distance < nearest_distance:
+			nearest_distance = distance
+			nearest_enemy = target
+
+	return nearest_enemy
+
+func teleport_to_random_enemy() -> void:
+	nearby_enemies = nearby_enemies.filter(func(target): return is_instance_valid(target))
+
+	if nearby_enemies.is_empty():
+		return
+
+	enemy = nearby_enemies.pick_random()
+
+	var enemy_sprite = enemy.get_node("Monster") as AnimatedSprite2D
+	var direction = 1.0 if enemy_sprite.flip_h else -1.0
+
+	attacking = true
+
+	# Disappear
+	player.play("teleport_down")
+	await player.animation_finished
+
+	if not is_instance_valid(enemy):
+		attacking = false
+		return
+
+	# Teleport behind enemy
+	global_position = enemy.global_position + Vector2(-direction * TELEPORT_DISTANCE, 0)
+
+	# Face enemy
+	player.flip_h = enemy_sprite.flip_h
+
+	# Update positions
+	attack_collision.position.x = -attack_collision_x if player.flip_h else attack_collision_x
+	throw_spawn.position.x = -abs(throw_spawn.position.x) if player.flip_h else abs(throw_spawn.position.x)
+
+	# Appear
+	player.play("teleport_up")
+	await player.animation_finished
+
+	attacking = false
+	play_normal_animation()
+	
+#endregion
+
 
 #region -> Attack
 func handle_attack() -> void:
@@ -248,8 +328,8 @@ func _on_player_frame_changed() -> void:
 				projectile = scene_knife.instantiate()
 			"arrow":
 				projectile = scene_arrow.instantiate()
-			"bind":
-				projectile = scene_bind.instantiate()
+			"slowed":
+				projectile = scene_slowed.instantiate()
 				
 		get_tree().current_scene.add_child(projectile)
 
@@ -261,8 +341,8 @@ func _on_player_frame_changed() -> void:
 			projectile.knife.flip_h = player.flip_h
 		elif projectileType == "arrow":
 			projectile.arrow.flip_h = !player.flip_h
-		elif projectileType == "bind":
-			projectile.bind.flip_h = !player.flip_h
+		elif projectileType == "slowed":
+			projectile.slowed.flip_h = !player.flip_h
 #endregion
 
 
@@ -310,61 +390,61 @@ func handle_abilities() -> void:
 		handle_attack()
 
 	if Input.is_action_just_pressed("swap"):
-		#toggle_bubble()
-		if projectileType == 'knife':
-			projectileType = 'arrow'
-			ability_icon.texture = icon_arrow
-		elif projectileType == 'arrow':
-			projectileType = 'bind'
-			ability_icon.texture = icon_bind
-		elif projectileType == 'bind':
-			projectileType = 'bubble'
-			ability_icon.texture = icon_bubble
-		elif projectileType == 'bubble':
-			projectileType = 'knife'
-			ability_icon.texture = icon_knife
+		var current_index = projectile_types.find(projectileType)
+		current_index = (current_index + 1) % projectile_types.size()
+
+		projectileType = projectile_types[current_index]
+		ability_icon.texture = get_projectile_icon(projectileType)
 
 	if Input.is_action_just_pressed("shoot"):
-		if projectileType == 'knife' or projectileType == 'arrow' or projectileType == 'bind':
-			shoot_arrow()
-		elif projectileType == 'bubble':
-			toggle_bubble()
+		if projectileType == 'knife' or projectileType == 'arrow' or projectileType == 'slowed':
+			shoot_projectile()
+		elif projectileType == 'shield':
+			toggle_shield()
 
+func toggle_shield() -> void:
+	if shield_tween:
+		shield_tween.kill()
 
-func toggle_bubble() -> void:
-	if bubble_tween:
-		bubble_tween.kill()
-
-	bubble_visible = !bubble_visible
+	shield_visible = !shield_visible
 
 	#show
-	if bubble_visible: 
-		bubble.show()
-		bubble.set_physics_process(true)
-		bubble.set_collision_layer_value(3, true)
-		bubble.set_collision_mask_value(2, true)
+	if shield_visible: 
+		shield.show()
+		shield.set_physics_process(true)
+		shield.set_collision_layer_value(3, true)
+		shield.set_collision_mask_value(2, true)
 
-		bubble_tween = create_tween()
-		bubble_tween.tween_property(bubble, "scale", Vector2.ONE, 0.5)
-		bubble_tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		shield_tween = create_tween()
+		shield_tween.tween_property(shield, "scale", Vector2.ONE, 0.5)
+		shield_tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	
 	#hide
 	else:
-		bubble_tween = create_tween()
-		bubble_tween.tween_property(bubble, "scale", Vector2(0.1, 0.1), 0.3)
-		bubble_tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
-		bubble_tween.tween_callback(func():
-			bubble.hide()
-			bubble.set_physics_process(false)
-			bubble.set_collision_layer_value(3, false)
-			bubble.set_collision_mask_value(2, false)
+		shield_tween = create_tween()
+		shield_tween.tween_property(shield, "scale", Vector2(0.1, 0.1), 0.3)
+		shield_tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+		shield_tween.tween_callback(func():
+			shield.hide()
+			shield.set_physics_process(false)
+			shield.set_collision_layer_value(3, false)
+			shield.set_collision_mask_value(2, false)
 		)
 
-func shoot_arrow() -> void:
+func shoot_projectile() -> void:
 	attacking = true
 	player.play("throw")
+	
+func get_projectile_icon(type: String) -> Texture2D:
+	match type:
+		"knife":
+			return icon_knife
+		"arrow":
+			return icon_arrow
+		"slowed":
+			return icon_slowed
+		"shield":
+			return icon_shield
 
-func shoot_knife() -> void:
-	attacking = true
-	player.play("throw")
+	return null
 #endregion
