@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dclhnnl03nv17"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ybdja"]
+bg_color = Color(0.68235296, 0.46666667, 0.39215687, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.49019608, 0.22745098, 0.2784314, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1802760569]
+
+[node name="Panel" type="Panel" parent="." unique_id=2000640772]
+texture_filter = 1
+offset_top = 25.0
+offset_right = 70.0
+offset_bottom = 95.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ybdja")
+
+[node name="TextureRect" type="TextureRect" parent="Panel" unique_id=455360486]
+texture_filter = 1
+custom_minimum_size = Vector2(54, 54)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 59.0
+offset_bottom = 59.0
+expand_mode = 1
+stretch_mode = 5

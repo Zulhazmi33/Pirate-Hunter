@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://melbsejal7lx"]
+[gd_scene format=3 uid="uid://cy3ps5xs2mfi4"]
 
 [ext_resource type="Texture2D" uid="uid://c1206akq4qjic" path="res://assets/images/life bars/lifeBar_player.png" id="1_pd7y0"]
 [ext_resource type="Texture2D" uid="uid://djphpbar1kexu" path="res://assets/images/life bars/color_red.png" id="2_a8fcq"]

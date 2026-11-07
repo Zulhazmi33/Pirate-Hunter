@@ -304,12 +304,13 @@ shape = SubResource("RectangleShape2D_ibbfc")
 one_way_collision = true
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1340888484]
+visible = false
 
 [node name="Collision" type="CollisionShape2D" parent="DetectionArea" unique_id=2070541945]
-visible = false
 shape = SubResource("RectangleShape2D_4ruf7")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=629259509]
+visible = false
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=1681160855]
 position = Vector2(-25, 1)
