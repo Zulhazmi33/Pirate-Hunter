@@ -169,7 +169,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"anticipation",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -319,24 +319,20 @@ script = ExtResource("1_4ruf7")
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
-animation = &"anticipation"
+animation = &"idle"
 autoplay = "idle"
-frame_progress = 1.0
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=271963828]
-visible = false
 position = Vector2(2.5, 6)
 shape = SubResource("RectangleShape2D_ibbfc")
 one_way_collision = true
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1340888484]
-visible = false
 
 [node name="Collision" type="CollisionShape2D" parent="DetectionArea" unique_id=2070541945]
 shape = SubResource("RectangleShape2D_4ruf7")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=629259509]
-visible = false
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=1681160855]
 position = Vector2(-25, 1)

@@ -237,7 +237,7 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body.name == "Player" or body.name == "Shield":
 		player = body
 		
-		if not is_chasing and not is_anticipating and can_see_player():
+		if not is_chasing and not is_anticipating and can_see_player() and fierceTooth.animation != "dead":
 			start_anticipation()
 
 func _on_detection_area_body_exited(body: Node2D) -> void:

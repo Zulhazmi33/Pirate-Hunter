@@ -54,9 +54,8 @@ var shield_tween: Tween
 var shield_visible := false
 
 # Projectile
-@export_enum("knife", "arrow", "slowed", "shield", "teleport") var projectileType: String = "knife"
-var projectile_types = ["knife", "arrow", "slowed", "shield", "teleport"]
-#var projectile_types = ["slowed", "shield", "teleport"]
+@export_enum("arrow", "slowed", "shield", "teleport") var projectileType: String = "arrow"
+var projectile_types = ["arrow", "slowed", "shield", "teleport"]
 @onready var ability_icon: TextureRect = $Camera2D/CanvasLayer/Panel/TextureRect
 var icon_arrow = preload("res://assets/images/icon/Arrow.png")
 var icon_knife = preload("res://assets/images/icon/Knife.png")
@@ -67,6 +66,7 @@ var icon_teleport = preload("res://assets/images/icon/Teleport.png")
 @export var scene_knife: PackedScene = preload("res://scenes/ability/knife.tscn")
 @export var scene_slowed: PackedScene = preload("res://scenes/ability/slowed.tscn")
 @onready var throw_spawn: Marker2D = $ThrowSpawn
+var throw_knife := false #special case
 
 
 # Enemy detection
@@ -83,7 +83,7 @@ func _ready() -> void:
 	#immune to 'STOP TIME'
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	ability_icon.texture = icon_knife
+	ability_icon.texture = icon_arrow
 	
 	shield.hide()
 	shield.scale = Vector2(0.1, 0.1)
@@ -154,6 +154,10 @@ func update_invincibility(delta: float) -> void:
 		invincible = false
 		player.modulate = Color.WHITE
 
+func update_direction() -> void:
+	throw_spawn.position.x = abs(throw_spawn.position.x) * (-1 if player.flip_h else 1)
+	attack_collision.position.x = -attack_collision_x if player.flip_h else attack_collision_x
+
 func handle_movement() -> void:
 	if knockback_timer > 0:
 		return
@@ -173,9 +177,7 @@ func handle_movement() -> void:
 	if direction:
 		velocity.x = direction * SPEED
 		player.flip_h = direction < 0
-
-		attack_collision.position.x = -attack_collision_x if player.flip_h else attack_collision_x
-		throw_spawn.position.x = -abs(throw_spawn.position.x) if player.flip_h else abs(throw_spawn.position.x)
+		update_direction()
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 #endregion
@@ -202,6 +204,7 @@ func _on_attack_effect_animation_finished() -> void:
 	for effect in attack_effects:
 		effect.hide()
 #endregion
+
 
 #region -> Detect Player
 
@@ -273,27 +276,32 @@ func _on_player_frame_changed() -> void:
 	# Projectile throwing
 	if player.animation == "throw" and player.frame == 1:
 		var projectile
-
-		match projectileType:
-			"knife":
-				projectile = scene_knife.instantiate()
-			"arrow":
-				projectile = scene_arrow.instantiate()
-			"slowed":
-				projectile = scene_slowed.instantiate()
-				
-		get_tree().current_scene.add_child(projectile)
-
-		projectile.global_position = throw_spawn.global_position
-		projectile.direction = -1.0 if player.flip_h else 1.0
-		projectile.attack_collision.position.x = projectile.attack_collision_x * projectile.direction
-
-		if projectileType == "knife":
+		
+		if throw_knife:
+			projectile = scene_knife.instantiate()
+			get_tree().current_scene.add_child(projectile)
+			projectile.global_position = throw_spawn.global_position
+			projectile.direction = -1.0 if player.flip_h else 1.0
+			projectile.attack_collision.position.x = abs(projectile.attack_collision_x) * projectile.direction
 			projectile.knife.flip_h = player.flip_h
-		elif projectileType == "arrow":
-			projectile.arrow.flip_h = !player.flip_h
-		elif projectileType == "slowed":
-			projectile.slowed.flip_h = !player.flip_h
+			
+			throw_knife = false
+		else:
+
+			match projectileType:
+				"arrow":
+					projectile = scene_arrow.instantiate()
+				"slowed":
+					projectile = scene_slowed.instantiate()
+					
+			get_tree().current_scene.add_child(projectile)
+
+			projectile.global_position = throw_spawn.global_position
+			projectile.direction = -1.0 if player.flip_h else 1.0
+			projectile.attack_collision.position.x = abs(projectile.attack_collision_x) * projectile.direction
+			
+			projectile.projectile.flip_h = !player.flip_h
+			
 #endregion
 
 
@@ -348,12 +356,17 @@ func handle_abilities() -> void:
 		ability_icon.texture = get_projectile_icon(projectileType)
 
 	if Input.is_action_just_pressed("trigger"):
-		if projectileType == 'knife' or projectileType == 'arrow' or projectileType == 'slowed':
+		if projectileType == 'arrow' or projectileType == 'slowed':
 			shoot_projectile()
 		elif projectileType == 'shield':
 			toggle_shield()
-		elif projectileType == 'teleport':
+		elif projectileType == 'teleport' and is_on_floor():
 			teleport_to_random_enemy()
+			
+	if Input.is_action_just_pressed("attack"):
+		if Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_RIGHT):
+				throw_knife = true
+				shoot_projectile()
 
 func toggle_shield() -> void:
 	if shield_tween:
@@ -388,10 +401,9 @@ func shoot_projectile() -> void:
 	attacking = true
 	player.play("throw")
 	
+	
 func get_projectile_icon(type: String) -> Texture2D:
 	match type:
-		"knife":
-			return icon_knife
 		"arrow":
 			return icon_arrow
 		"slowed":
@@ -404,8 +416,6 @@ func get_projectile_icon(type: String) -> Texture2D:
 	return null
 
 func teleport_to_random_enemy() -> void:
-	get_tree().paused = true
-	
 	nearby_enemies = nearby_enemies.filter(func(target): return is_instance_valid(target))
 
 	if nearby_enemies.is_empty():
@@ -417,6 +427,7 @@ func teleport_to_random_enemy() -> void:
 	var direction = 1.0 if enemy_sprite.flip_h else -1.0
 
 	attacking = true
+	get_tree().paused = true
 
 	# Disappear
 	player.play("teleport_down")
@@ -424,6 +435,7 @@ func teleport_to_random_enemy() -> void:
 
 	if not is_instance_valid(enemy):
 		attacking = false
+		get_tree().paused = false
 		return
 
 	# Teleport behind enemy
@@ -433,8 +445,7 @@ func teleport_to_random_enemy() -> void:
 	player.flip_h = enemy_sprite.flip_h
 
 	# Update positions
-	attack_collision.position.x = -attack_collision_x if player.flip_h else attack_collision_x
-	throw_spawn.position.x = -abs(throw_spawn.position.x) if player.flip_h else abs(throw_spawn.position.x)
+	update_direction()
 
 	# Appear
 	player.play("teleport_up")
@@ -442,6 +453,7 @@ func teleport_to_random_enemy() -> void:
 
 	attacking = false
 	get_tree().paused = false
-	play_normal_animation()
 
+	play_normal_animation()
+	
 #endregion
