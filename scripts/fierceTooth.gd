@@ -30,6 +30,8 @@ var is_chasing := false
 var player: CharacterBody2D = null
 var player_in_attack_area := false
 var player_visible := false
+var is_anticipating := false
+var anticipation_duration := 1.0
 
 # Attack
 @export var DAMAGE: float = 50.0
@@ -79,6 +81,7 @@ func _ready() -> void:
 #region -> Physics
 
 func _physics_process(delta: float) -> void:
+
 	update_invincibility(delta)
 
 	knockback_timer = maxf(knockback_timer - delta, 0.0)
@@ -107,9 +110,10 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 
 	# Player visibility
-	player_visible = player != null and (is_chasing or can_see_player())
-
-	if fierceTooth.animation != "hit" and fierceTooth.animation != "dead":
+	#player_visible = player != null and (is_chasing or can_see_player())
+	player_visible = player != null and can_see_player()
+	
+	if fierceTooth.animation != "hit" and fierceTooth.animation != "dead" and not is_anticipating:
 		handle_movement()
 
 	move_and_slide()
@@ -232,24 +236,43 @@ func can_see_player() -> bool:
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body.name == "Player" or body.name == "Shield":
 		player = body
-
+		
+		if not is_chasing and not is_anticipating and can_see_player():
+			start_anticipation()
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		player = null
 		player_in_attack_area = false
 		is_chasing = false
-
+		is_anticipating = false
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
 	if body == player:
 		player_in_attack_area = true
 
-
 func _on_attack_area_body_exited(body: Node2D) -> void:
 	if body == player:
 		player_in_attack_area = false
 
+func start_anticipation() -> void:
+	is_anticipating = true
+	velocity.x = 0
+
+	fierceTooth.play("anticipation")
+
+	await get_tree().create_timer(anticipation_duration).timeout
+
+	if isDead or not is_instance_valid(player):
+		is_anticipating = false
+		return
+
+	# Check raycast again after anticipation
+	if can_see_player():
+		is_chasing = true
+
+	is_anticipating = false
+	
 #endregion
 
 

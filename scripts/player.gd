@@ -54,10 +54,15 @@ var shield_tween: Tween
 var shield_visible := false
 
 # Projectile
-@export_enum("knife", "arrow", "slowed", "shield") var projectileType: String = "knife"
-#var projectile_types = ["knife", "arrow", "slowed", "shield"]
-var projectile_types = ["slowed", "shield"]
+@export_enum("knife", "arrow", "slowed", "shield", "teleport") var projectileType: String = "knife"
+var projectile_types = ["knife", "arrow", "slowed", "shield", "teleport"]
+#var projectile_types = ["slowed", "shield", "teleport"]
 @onready var ability_icon: TextureRect = $Camera2D/CanvasLayer/Panel/TextureRect
+var icon_arrow = preload("res://assets/images/icon/Arrow.png")
+var icon_knife = preload("res://assets/images/icon/Knife.png")
+var icon_slowed = preload("res://assets/images/icon/Slowed.png")
+var icon_shield = preload("res://assets/images/icon/Shield.png")
+var icon_teleport = preload("res://assets/images/icon/Teleport.png")
 @export var scene_arrow: PackedScene = preload("res://scenes/ability/arrow.tscn")
 @export var scene_knife: PackedScene = preload("res://scenes/ability/knife.tscn")
 @export var scene_slowed: PackedScene = preload("res://scenes/ability/slowed.tscn")
@@ -68,17 +73,16 @@ var projectile_types = ["slowed", "shield"]
 var nearby_enemies: Array[CharacterBody2D] = []
 var enemy: CharacterBody2D = null
 
-@export var TELEPORT_DISTANCE: float = 60.0
-var icon_arrow = preload("res://assets/images/icon/Arrow.png")
-var icon_knife = preload("res://assets/images/icon/Knife.png")
-var icon_slowed = preload("res://assets/images/icon/Slowed.png")
-var icon_shield = preload("res://assets/images/icon/Shield.png")
+@export var TELEPORT_DISTANCE: float = 100.0
 
 #endregion
 
 
 #region -> Starter
 func _ready() -> void:
+	#immune to 'STOP TIME'
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	
 	ability_icon.texture = icon_knife
 	
 	shield.hide()
@@ -108,9 +112,10 @@ func _physics_process(delta: float) -> void:
 	#if dead, ignore
 	if isDead:
 		return
-
-	if Input.is_action_just_pressed("teleport"):
-		teleport_to_random_enemy()
+	
+	#prevent movement during teleport
+	if player.animation == "teleport_down" or player.animation == "teleport_up":
+		return
 		
 	update_invincibility(delta)
 
@@ -208,60 +213,6 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	if body in nearby_enemies:
 		nearby_enemies.erase(body)
-	
-func get_nearest_enemy() -> CharacterBody2D:
-	var nearest_enemy: CharacterBody2D = null
-	var nearest_distance := INF
-
-	for target in nearby_enemies:
-		if not is_instance_valid(target):
-			continue
-
-		var distance = global_position.distance_to(target.global_position)
-
-		if distance < nearest_distance:
-			nearest_distance = distance
-			nearest_enemy = target
-
-	return nearest_enemy
-
-func teleport_to_random_enemy() -> void:
-	nearby_enemies = nearby_enemies.filter(func(target): return is_instance_valid(target))
-
-	if nearby_enemies.is_empty():
-		return
-
-	enemy = nearby_enemies.pick_random()
-
-	var enemy_sprite = enemy.get_node("Monster") as AnimatedSprite2D
-	var direction = 1.0 if enemy_sprite.flip_h else -1.0
-
-	attacking = true
-
-	# Disappear
-	player.play("teleport_down")
-	await player.animation_finished
-
-	if not is_instance_valid(enemy):
-		attacking = false
-		return
-
-	# Teleport behind enemy
-	global_position = enemy.global_position + Vector2(-direction * TELEPORT_DISTANCE, 0)
-
-	# Face enemy
-	player.flip_h = enemy_sprite.flip_h
-
-	# Update positions
-	attack_collision.position.x = -attack_collision_x if player.flip_h else attack_collision_x
-	throw_spawn.position.x = -abs(throw_spawn.position.x) if player.flip_h else abs(throw_spawn.position.x)
-
-	# Appear
-	player.play("teleport_up")
-	await player.animation_finished
-
-	attacking = false
-	play_normal_animation()
 	
 #endregion
 
@@ -396,11 +347,13 @@ func handle_abilities() -> void:
 		projectileType = projectile_types[current_index]
 		ability_icon.texture = get_projectile_icon(projectileType)
 
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed("trigger"):
 		if projectileType == 'knife' or projectileType == 'arrow' or projectileType == 'slowed':
 			shoot_projectile()
 		elif projectileType == 'shield':
 			toggle_shield()
+		elif projectileType == 'teleport':
+			teleport_to_random_enemy()
 
 func toggle_shield() -> void:
 	if shield_tween:
@@ -445,6 +398,50 @@ func get_projectile_icon(type: String) -> Texture2D:
 			return icon_slowed
 		"shield":
 			return icon_shield
+		"teleport":
+			return icon_teleport
 
 	return null
+
+func teleport_to_random_enemy() -> void:
+	get_tree().paused = true
+	
+	nearby_enemies = nearby_enemies.filter(func(target): return is_instance_valid(target))
+
+	if nearby_enemies.is_empty():
+		return
+
+	enemy = nearby_enemies.pick_random()
+
+	var enemy_sprite = enemy.get_node("Monster") as AnimatedSprite2D
+	var direction = 1.0 if enemy_sprite.flip_h else -1.0
+
+	attacking = true
+
+	# Disappear
+	player.play("teleport_down")
+	await player.animation_finished
+
+	if not is_instance_valid(enemy):
+		attacking = false
+		return
+
+	# Teleport behind enemy
+	global_position = enemy.global_position + Vector2(-direction * TELEPORT_DISTANCE, 0)
+
+	# Face enemy
+	player.flip_h = enemy_sprite.flip_h
+
+	# Update positions
+	attack_collision.position.x = -attack_collision_x if player.flip_h else attack_collision_x
+	throw_spawn.position.x = -abs(throw_spawn.position.x) if player.flip_h else abs(throw_spawn.position.x)
+
+	# Appear
+	player.play("teleport_up")
+	await player.animation_finished
+
+	attacking = false
+	get_tree().paused = false
+	play_normal_animation()
+
 #endregion
