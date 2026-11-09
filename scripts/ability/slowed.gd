@@ -7,7 +7,8 @@ extends CharacterBody2D
 var enemy: CharacterBody2D = null
 
 const SPEED = 300.0
-@export var DAMAGE: float = 0.0
+const mana_cost: float = 50.0
+var DAMAGE: float = 0.0
 var direction: float = 1.0
 
 #attack_collision
@@ -27,10 +28,11 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 		
 func _on_attack_area_body_entered(body):
+	print(body.name)
 	if body.name.begins_with("TileMapLayer"):
 		queue_free()
 		
-	elif body.name.begins_with("fierceTooth"):
+	elif body.name.begins_with("fierceTooth") or body.name.begins_with("pinkStar"):
 		enemy = body
 		
 		#enemy.take_damage(DAMAGE, global_position)

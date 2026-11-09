@@ -14,14 +14,13 @@ extends CharacterBody2D
 
 # Movement
 @export var SPEED := 0.0
-@export var JUMP_VELOCITY := 0.0
-@export var PATROL_SPEED := 0.0
-@export var PATROL_DISTANCE := 0.0
-@export var DETECTION_OFFSET := 00.
-@export var DETECTION_BACK_OFFSET := 0.0
+var PATROL_SPEED := 0.0
+var PATROL_DISTANCE := 0.0
+var DETECTION_OFFSET := 0.0
+var DETECTION_BACK_OFFSET := 0.0
 
+@export var PATROL_DIRECTION := -1.0
 var patrol_start_x: float
-var patrol_direction := -1.0
 var patrol_wall_cooldown := 0.0
 var is_chasing := false
 
@@ -36,15 +35,15 @@ var anticipation_duration := 1.0
 @export var DAMAGE := 0.0
 
 # Health
-var HEALTH := 0.0
+@export var HEALTH := 0.0
 var isDead := false
 var invincible := false
 var invincible_timer := 0.0
 var invincible_flash_timer := 0.0
 
 # Knockback
-@export var KNOCKBACK_FORCE := 0.0
-@export var KNOCKBACK_UP := 0.0
+var KNOCKBACK_FORCE := 0.0
+var KNOCKBACK_UP := 0.0
 var knockback_timer := 0.0
 
 # Slow
@@ -54,7 +53,7 @@ var slow_duration := 0.0
 var slow_multiplier := 0.0
 
 #endregion
-	
+
 
 #region -> Starter
 func _ready() -> void:
@@ -63,6 +62,7 @@ func _ready() -> void:
 
 	detection_area.body_entered.connect(_on_detection_area_body_entered)
 	detection_area.body_exited.connect(_on_detection_area_body_exited)
+
 	attack_area.body_entered.connect(_on_attack_area_body_entered)
 	attack_area.body_exited.connect(_on_attack_area_body_exited)
 
@@ -95,14 +95,42 @@ func _physics_process(delta: float) -> void:
 	velocity.y = 0 if is_on_floor() else velocity.y + get_gravity().y * delta
 
 	# Player visibility
-	player_visible = player != null and can_see_player()
+	player_visible = (
+		is_instance_valid(player)
+		and can_see_player()
+	)
 
 	if monster.animation not in ["hit", "dead"] and not is_anticipating:
 		handle_movement()
 
 	move_and_slide()
 
+func handle_movement() -> void:
+	var movement_multiplier := slow_multiplier if is_slowed else 1.0
+
+	# Patrol
+	if player == null or not player_visible:
+		monster.play("run")
+
+		velocity.x = PATROL_DIRECTION * PATROL_SPEED * movement_multiplier
+
+		if global_position.x >= patrol_start_x + PATROL_DISTANCE:
+			PATROL_DIRECTION = -1.0
+
+		elif global_position.x <= patrol_start_x - PATROL_DISTANCE:
+			PATROL_DIRECTION = 1.0
+
+		if not is_chasing and is_on_wall() and patrol_wall_cooldown <= 0:
+			PATROL_DIRECTION *= -1
+			patrol_wall_cooldown = 0.2
+
+		monster.flip_h = PATROL_DIRECTION > 0
+
+	update_detection_area()
+	update_attack_area()
+
 func update_invincibility(delta: float) -> void:
+
 	# Slow effect
 	if is_slowed:
 		slow_timer -= delta
@@ -119,6 +147,7 @@ func update_invincibility(delta: float) -> void:
 
 	if invincible_flash_timer <= 0:
 		invincible_flash_timer = 0.1
+
 		monster.modulate = (
 			Color(1, 1, 1, 0.5) if monster.modulate == Color.WHITE
 			else Color.WHITE
@@ -128,80 +157,41 @@ func update_invincibility(delta: float) -> void:
 		invincible = false
 		monster.modulate = Color.WHITE
 
-func handle_movement() -> void:
-	var movement_multiplier := slow_multiplier if is_slowed else 1.0
-
-	# Patrol
-	if player == null or not player_visible:
-		monster.play("run")
-		velocity.x = patrol_direction * PATROL_SPEED * movement_multiplier
-		player_in_attack_area = false
-
-		if global_position.x >= patrol_start_x + PATROL_DISTANCE:
-			patrol_direction = -1.0
-		elif global_position.x <= patrol_start_x - PATROL_DISTANCE:
-			patrol_direction = 1.0
-
-		if not is_chasing and is_on_wall() and patrol_wall_cooldown <= 0:
-			patrol_direction *= -1
-			patrol_wall_cooldown = 0.2
-
-		monster.flip_h = patrol_direction > 0
-
-	# Attack
-	elif player_in_attack_area:
-		monster.play("attack")
-		velocity.x = 0
-
-	# Chase
-	else:
-		is_chasing = true
-		monster.play("run")
-
-		var direction: float = sign(player.global_position.x - global_position.x)
-		velocity.x = direction * SPEED * movement_multiplier
-
-		if direction != 0:
-			monster.flip_h = direction > 0
-
-	update_detection_area()
-	update_attack_area()
-
-	# Jump over obstacles
-	if is_chasing and is_on_wall() and is_on_floor():
-		for i in get_slide_collision_count():
-			var collision := get_slide_collision(i)
-			var collider := collision.get_collider()
-
-			if collider == null or collider == player or collider.name in ["Shield", "Knife"]:
-				continue
-
-			if abs(collision.get_normal().x) > 0.5:
-				velocity.y = JUMP_VELOCITY * movement_multiplier
-				monster.play("jump")
-				break
-
 #endregion
 
 
 #region -> Detection Radius
 func update_detection_area() -> void:
-	detection_area.position.x = (DETECTION_OFFSET - DETECTION_BACK_OFFSET) * (1 if monster.flip_h else -1)
+	detection_area.position.x = (
+		DETECTION_OFFSET - DETECTION_BACK_OFFSET
+	) * (1 if monster.flip_h else -1)
 
 func update_attack_area() -> void:
-	attack_collision.position.x = attack_collision_x * (1 if monster.flip_h else -1)
+	attack_collision.position.x = (
+		attack_collision_x * (1 if monster.flip_h else -1)
+	)
 
 #endregion
 
 
 #region -> Seeing Player
 func can_see_player() -> bool:
-	var query := PhysicsRayQueryParameters2D.create(global_position, player.global_position)
+	if not is_instance_valid(player):
+		return false
+
+	var query := PhysicsRayQueryParameters2D.create(
+		global_position,
+		player.global_position
+	)
+
 	query.exclude = [self]
 
 	var result := get_world_2d().direct_space_state.intersect_ray(query)
 
-	return not result.is_empty() and (result.collider == player or result.collider.name == "Shield")
+	return (
+		not result.is_empty()
+		and (result.collider == player or result.collider.name == "Shield")
+	)
 
 #endregion
 
@@ -213,7 +203,12 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 
 	player = body
 
-	if not is_chasing and not is_anticipating and monster.animation != "dead" and can_see_player():
+	if (
+		not is_chasing
+		and not is_anticipating
+		and not isDead
+		and can_see_player()
+	):
 		start_anticipation()
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
@@ -236,6 +231,7 @@ func _on_attack_area_body_exited(body: Node2D) -> void:
 func start_anticipation() -> void:
 	is_anticipating = true
 	velocity.x = 0
+
 	monster.play("anticipation")
 
 	await get_tree().create_timer(anticipation_duration).timeout
@@ -284,16 +280,24 @@ func take_damage(damage: float, attacker_position: Vector2) -> void:
 
 	# Knockback
 	var direction: float = sign(global_position.x - attacker_position.x)
-	velocity = Vector2(direction * KNOCKBACK_FORCE, -KNOCKBACK_UP)
+
+	velocity = Vector2(
+		direction * KNOCKBACK_FORCE,
+		-KNOCKBACK_UP
+	)
+
 	knockback_timer = 0.2
 
 	# Death
 	if HEALTH <= 0:
 		isDead = true
 		energy.hide()
+
 		monster.play("dead")
+
 		collision_layer = 0
 		collision_mask = 1 << 3
+
 		velocity = Vector2.ZERO
 
 	await get_tree().create_timer(0.7).timeout
@@ -309,6 +313,7 @@ func slow_movement() -> void:
 
 	is_slowed = true
 	slow_timer = slow_duration
+
 	monster.modulate = Color(0.5, 0.75, 1.0, 1.0)
 
 #endregion

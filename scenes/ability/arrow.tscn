@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://jovkp5fv52ba"]
 
-[ext_resource type="Script" uid="uid://1jwl64rtenc0" path="res://scripts/arrow.gd" id="1_q7ayk"]
+[ext_resource type="Script" uid="uid://1jwl64rtenc0" path="res://scripts/ability/arrow.gd" id="1_q7ayk"]
 [ext_resource type="Texture2D" uid="uid://df10ego03utvt" path="res://assets/images/ability/arrow.png" id="1_yjjkx"]
 [ext_resource type="Texture2D" uid="uid://dutnesq272dfv" path="res://assets/images/ability/blast.png" id="2_47cvs"]
 
@@ -245,7 +245,7 @@ visible = false
 shape = SubResource("RectangleShape2D_q7ayk")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1353367306]
-collision_layer = 4
+collision_layer = 5
 collision_mask = 10
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=1325634212]

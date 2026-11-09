@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c554rcmwbhop3" path="res://assets/images/monster/pinkStar/idle.png" id="1_kf10i"]
 [ext_resource type="Texture2D" uid="uid://unlk2j5ip62p" path="res://assets/images/monster/pinkStar/anticipation.png" id="1_lyiqe"]
-[ext_resource type="Script" uid="uid://cm3kxtfxipoy6" path="res://scripts/pinkStar.gd" id="1_qx1vi"]
+[ext_resource type="Script" uid="uid://cm3kxtfxipoy6" path="res://scripts/creature/pinkStar.gd" id="1_qx1vi"]
 [ext_resource type="Texture2D" uid="uid://6h6kai4u7ll" path="res://assets/images/monster/pinkStar/attack.png" id="2_8g4sg"]
 [ext_resource type="Texture2D" uid="uid://byqk35ta1nnka" path="res://assets/images/monster/pinkStar/hit.png" id="3_qx1vi"]
 [ext_resource type="Texture2D" uid="uid://bk8al2wa7qsij" path="res://assets/images/monster/pinkStar/dead.png" id="4_r08ns"]
@@ -172,7 +172,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cc6dv")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"attack",
 "speed": 5.0
 }, {
@@ -209,7 +209,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dmbpl")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"hit",
 "speed": 7.0
 }, {
@@ -252,7 +252,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_b8d7i")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"jump",
 "speed": 7.0
 }, {
@@ -298,13 +298,13 @@ script = ExtResource("1_qx1vi")
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_i0h0t")
-animation = &"dead"
+animation = &"run"
 autoplay = "idle"
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=1047065167]
-visible = false
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_2opd5")
+one_way_collision = true
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1248543502]
 visible = false
@@ -314,6 +314,7 @@ visible = false
 shape = SubResource("RectangleShape2D_ibbfc")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=865538403]
+visible = false
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=1699822660]
 shape = SubResource("RectangleShape2D_cgyim")

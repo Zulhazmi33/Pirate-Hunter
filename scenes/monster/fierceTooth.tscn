@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bowpovypvrlq1"]
 
-[ext_resource type="Script" uid="uid://dcv36b8ybo2c2" path="res://scripts/fierceTooth.gd" id="1_4ruf7"]
+[ext_resource type="Script" uid="uid://dcv36b8ybo2c2" path="res://scripts/creature/fierceTooth.gd" id="1_4ruf7"]
 [ext_resource type="Texture2D" uid="uid://w8tbk4avupff" path="res://assets/images/monster/fierceTooth/idle.png" id="1_o71jh"]
 [ext_resource type="Texture2D" uid="uid://cb17k7jbvjrir" path="res://assets/images/monster/fierceTooth/attack.png" id="1_uo7da"]
 [ext_resource type="Texture2D" uid="uid://y2sbeyrfjycs" path="res://assets/images/monster/fierceTooth/anticipation.png" id="2_2opd5"]
@@ -273,7 +273,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bhn6c")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"jump",
 "speed": 7.0
 }, {
@@ -314,15 +314,17 @@ size = Vector2(50, 75)
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_4ruf7")
+SPEED = null
+PATROL_DIRECTION = null
+DAMAGE = null
+HEALTH = null
 
 [node name="Monster" type="AnimatedSprite2D" parent="." unique_id=485707012]
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
-animation = &"anticipation"
+animation = &"run"
 autoplay = "idle"
-frame = 2
-frame_progress = 1.0
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=271963828]
 position = Vector2(0, 3)
@@ -336,6 +338,7 @@ visible = false
 shape = SubResource("RectangleShape2D_4ruf7")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=629259509]
+visible = false
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=1681160855]
 position = Vector2(-25, 1)

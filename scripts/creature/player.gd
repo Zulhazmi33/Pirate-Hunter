@@ -35,13 +35,19 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -900.0
 
 # Health
-@onready var energy: TextureRect = $Camera2D/lifebar_player/energy
-
-var health := 250.0
+@onready var energy_health: TextureRect = $Camera2D/lifebar_player/Control/energy_health
+var HEALTH := 225.0 #based on actual size of x-axis
 var isDead := false
 var invincible := false
 var invincible_timer := 0.0
 var invincible_flash_timer := 0.0
+
+# MANA
+@onready var energy_mana: TextureRect = $Camera2D/lifebar_player/Control/energy_mana
+const MANA_initial := 260.0 
+var MANA := MANA_initial #based on actual size of x-axis
+var MANA_regen_rate := 5
+var mana_timer: float = 0.0
 
 # Knockback
 @export var KNOCKBACK_FORCE: float = 600.0
@@ -56,7 +62,7 @@ var shield_visible := false
 # Projectile
 @export_enum("arrow", "slowed", "shield", "teleport") var projectileType: String = "teleport"
 var projectile_types = ["arrow", "slowed", "shield", "teleport"]
-@onready var ability_icon: TextureRect = $Camera2D/CanvasLayer/Panel/TextureRect
+@onready var ability_icon: TextureRect = $Camera2D/CanvasLayer/Icon
 var icon_arrow = preload("res://assets/images/icon/Arrow.png")
 var icon_knife = preload("res://assets/images/icon/Knife.png")
 var icon_slowed = preload("res://assets/images/icon/Slowed.png")
@@ -65,12 +71,14 @@ var icon_teleport = preload("res://assets/images/icon/Teleport.png")
 @export var scene_arrow: PackedScene = preload("res://scenes/ability/arrow.tscn")
 @export var scene_knife: PackedScene = preload("res://scenes/ability/knife.tscn")
 @export var scene_slowed: PackedScene = preload("res://scenes/ability/slowed.tscn")
+@export var scene_shield: PackedScene = preload("res://scenes/ability/shield.tscn")
 @onready var throw_spawn: Marker2D = $ThrowSpawn
 
 # Enemy detection
 var nearby_enemies: Array[CharacterBody2D] = []
 var enemy: CharacterBody2D = null
 
+#Teleport
 @export var TELEPORT_DISTANCE: float = 100.0
 
 #endregion
@@ -96,7 +104,7 @@ func _ready() -> void:
 
 	player.animation_finished.connect(_on_animation_finished)
 	player.frame_changed.connect(_on_player_frame_changed)
-
+	
 	#Detection signals
 	detection_area.body_entered.connect(_on_detection_area_body_entered)
 	detection_area.body_exited.connect(_on_detection_area_body_exited)
@@ -107,6 +115,7 @@ func _ready() -> void:
 
 #region -> Physics
 func _physics_process(delta: float) -> void:
+	
 	#if dead, ignore
 	if isDead:
 		return
@@ -116,9 +125,9 @@ func _physics_process(delta: float) -> void:
 		return
 		
 	update_invincibility(delta)
-
 	knockback_timer = maxf(knockback_timer - delta, 0.0)
 
+	#gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
@@ -178,6 +187,21 @@ func handle_movement() -> void:
 		update_direction()
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
+#endregion
+
+
+#region -> Run_Per_Frame
+func _process(delta: float) -> void:
+	
+	#regen mana per second
+	mana_timer += delta
+	if mana_timer >= 1.0:
+		mana_timer = 0.0
+
+		if MANA < MANA_initial:
+			MANA += MANA_regen_rate
+			energy_mana.size.x += MANA_regen_rate
+
 #endregion
 
 
@@ -293,6 +317,13 @@ func _on_player_frame_changed() -> void:
 					
 			get_tree().current_scene.add_child(projectile)
 
+			#reduce mana
+			var reduce_mana = maxf(MANA - projectile.mana_cost, 0.0)
+			if reduce_mana >= 32.0:
+				MANA = reduce_mana
+				energy_mana.size.x = reduce_mana
+			
+			#shoot
 			projectile.global_position = throw_spawn.global_position
 			projectile.direction = -1.0 if player.flip_h else 1.0
 			projectile.attack_collision.position.x = abs(projectile.attack_collision_x) * projectile.direction
@@ -306,8 +337,8 @@ func _on_player_frame_changed() -> void:
 func take_damage(damage: float, attacker_position: Vector2) -> void:
 	if invincible or isDead:
 		return
-	health = maxf(health - damage, 0.0)
-	energy.size.x = health
+	HEALTH = maxf(HEALTH - damage, 0.0)
+	energy_health.size.x = HEALTH
 
 	invincible = true
 	invincible_timer = 1.0
@@ -319,9 +350,9 @@ func take_damage(damage: float, attacker_position: Vector2) -> void:
 	velocity = Vector2(direction * KNOCKBACK_FORCE, -KNOCKBACK_UP)
 	knockback_timer = 0.2
 
-	if health <= 0:
+	if HEALTH <= 0:
 		isDead = true
-		energy.hide()
+		energy_health.hide()
 		player.play("dead")
 		sound_death.play()
 	else:
@@ -373,6 +404,16 @@ func toggle_shield() -> void:
 
 	#show
 	if shield_visible: 
+		
+		#reduce mana
+		var mana_cost = scene_shield.instantiate().mana_cost
+		var reduce_mana = maxf(MANA - mana_cost, 0.0)
+		if reduce_mana >= 32.0:
+			MANA = reduce_mana
+			energy_mana.size.x = reduce_mana
+		else:
+			return
+		
 		shield.show()
 		shield.set_physics_process(true)
 		shield.set_collision_layer_value(3, true)
@@ -384,6 +425,7 @@ func toggle_shield() -> void:
 	
 	#hide
 	else:
+		
 		shield_tween = create_tween()
 		shield_tween.tween_property(shield, "scale", Vector2(0.1, 0.1), 0.3)
 		shield_tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
@@ -401,7 +443,6 @@ func throw_projectile() -> void:
 	attacking = true
 	player.play("throw")
 	
-	
 func get_projectile_icon(type: String) -> Texture2D:
 	match type:
 		"arrow":
@@ -416,6 +457,16 @@ func get_projectile_icon(type: String) -> Texture2D:
 	return null
 
 func teleport_to_random_enemy() -> void:
+	
+	#reduce mana
+	var mana_cost = 20.0
+	var reduce_mana = maxf(MANA - mana_cost, 0.0)
+	if reduce_mana >= 32.0:
+		MANA = reduce_mana
+		energy_mana.size.x = reduce_mana
+	else:
+		return
+	
 	nearby_enemies = nearby_enemies.filter(func(target): return is_instance_valid(target))
 
 	if nearby_enemies.is_empty():
@@ -455,5 +506,4 @@ func teleport_to_random_enemy() -> void:
 	get_tree().paused = false
 
 	play_normal_animation()
-	
 #endregion

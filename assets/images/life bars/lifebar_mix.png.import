@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0obfkykksq8q"
-path="res://.godot/imported/life_poison.png-6763c559f3fac08eba5357ccd7062d94.ctex"
+uid="uid://ceh1na30rhmtx"
+path="res://.godot/imported/lifebar_mix.png-1e6910775e7363457b1a5677eea49881.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/life bars/life_poison.png"
-dest_files=["res://.godot/imported/life_poison.png-6763c559f3fac08eba5357ccd7062d94.ctex"]
+source_file="res://assets/images/life bars/lifebar_mix.png"
+dest_files=["res://.godot/imported/lifebar_mix.png-1e6910775e7363457b1a5677eea49881.ctex"]
 
 [params]
 

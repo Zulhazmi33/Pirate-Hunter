@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://du1seoo8sjxqd"]
 
-[ext_resource type="Script" uid="uid://cuvjnv1uf3c77" path="res://scripts/slowed.gd" id="1_rxqna"]
+[ext_resource type="Script" uid="uid://cuvjnv1uf3c77" path="res://scripts/ability/slowed.gd" id="1_rxqna"]
 [ext_resource type="Texture2D" uid="uid://cum43eu8al3up" path="res://assets/images/ability/slowed.png" id="2_2kqfc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_saiq0"]

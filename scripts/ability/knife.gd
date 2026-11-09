@@ -46,7 +46,7 @@ func _on_attack_area_body_entered(body):
 	if body.name.begins_with("TileMapLayer"):
 		embed_knife(body)
 
-	elif body.name.begins_with("fierceTooth"):
+	elif body.name.begins_with("fierceTooth") or body.name.begins_with("pinkStar"):
 		enemy = body
 		enemy.take_damage(DAMAGE, global_position)
 		embed_knife(body)

@@ -1,26 +1,55 @@
 [gd_scene format=3 uid="uid://cy3ps5xs2mfi4"]
 
-[ext_resource type="Texture2D" uid="uid://c1206akq4qjic" path="res://assets/images/life bars/lifeBar_player.png" id="1_pd7y0"]
+[ext_resource type="Texture2D" uid="uid://gf0ej5f8pr0y" path="res://assets/images/life bars/lifeBar_blank.png" id="1_a8fcq"]
 [ext_resource type="Texture2D" uid="uid://djphpbar1kexu" path="res://assets/images/life bars/color_red.png" id="2_a8fcq"]
+[ext_resource type="Texture2D" uid="uid://ceh1na30rhmtx" path="res://assets/images/life bars/lifebar_mix.png" id="2_uufan"]
+[ext_resource type="Texture2D" uid="uid://drdvsvwax5gps" path="res://assets/images/life bars/color_blue.png" id="3_uufan"]
 
-[node name="lifebar_player" type="Node2D" unique_id=1192740705]
+[node name="lifebar_player" type="CanvasLayer" unique_id=294219547]
 
-[node name="shell" type="NinePatchRect" parent="." unique_id=550181928]
+[node name="Control" type="Control" parent="." unique_id=1201554195]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="shell_old" type="NinePatchRect" parent="Control" unique_id=550181928]
+visible = false
 texture_filter = 1
-offset_left = -475.0
-offset_top = -275.0
-offset_right = -325.0
-offset_bottom = -230.0
+layout_mode = 0
+offset_left = 70.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 65.0
 scale = Vector2(2, 2)
-texture = ExtResource("1_pd7y0")
-region_rect = Rect2(0, 0, 96, 32)
-patch_margin_left = 20
-patch_margin_right = 20
+texture = ExtResource("1_a8fcq")
 
-[node name="energy" type="TextureRect" parent="." unique_id=242615872]
+[node name="shell" type="TextureRect" parent="Control" unique_id=393304231]
 texture_filter = 1
-offset_left = -440.0
-offset_top = -235.0
-offset_right = -190.0
-offset_bottom = -230.0
+layout_mode = 0
+offset_left = 31.0
+offset_top = -32.0
+offset_right = 306.0
+offset_bottom = 38.0
+scale = Vector2(2, 2)
+texture = ExtResource("2_uufan")
+
+[node name="energy_health" type="TextureRect" parent="Control" unique_id=242615872]
+texture_filter = 1
+layout_mode = 0
+offset_left = 63.0
+offset_top = 29.0
+offset_right = 288.0
+offset_bottom = 33.0
+scale = Vector2(2, 2)
 texture = ExtResource("2_a8fcq")
+
+[node name="energy_mana" type="TextureRect" parent="Control" unique_id=850741009]
+texture_filter = 1
+layout_mode = 0
+offset_left = -6.0
+offset_top = 43.0
+offset_right = 254.0
+offset_bottom = 51.0
+scale = Vector2(2, 2)
+texture = ExtResource("3_uufan")

@@ -3,11 +3,11 @@
 [ext_resource type="Texture2D" uid="uid://csb3cnd70dnew" path="res://assets/images/island/background/main.png" id="1_ybxn4"]
 [ext_resource type="PackedScene" uid="uid://knbt06rtvgt0" path="res://scenes/tree/tree_back_left.tscn" id="2_so7sr"]
 [ext_resource type="Texture2D" uid="uid://bd57raknph2t7" path="res://assets/images/island/tilemap/Terrain (32x32).png" id="2_xbhhu"]
-[ext_resource type="Script" uid="uid://c5p286vscntri" path="res://scripts/clouds.gd" id="3_2qg3m"]
+[ext_resource type="Script" uid="uid://c5p286vscntri" path="res://scripts/background/clouds.gd" id="3_2qg3m"]
 [ext_resource type="PackedScene" uid="uid://ts7rfpvil64p" path="res://scenes/player.tscn" id="3_u8rbc"]
 [ext_resource type="PackedScene" uid="uid://dck2dlcknb7og" path="res://scenes/tree/tree_front_top.tscn" id="3_wdc5c"]
 [ext_resource type="Texture2D" uid="uid://bi6ihoi3s8yye" path="res://assets/images/island/background/water/Water Reflect Small 01.png" id="5_0f3yk"]
-[ext_resource type="Script" uid="uid://bwcp38kx44asl" path="res://scripts/water_reflect.gd" id="5_nfqjd"]
+[ext_resource type="Script" uid="uid://bwcp38kx44asl" path="res://scripts/background/water_reflect.gd" id="5_nfqjd"]
 [ext_resource type="Texture2D" uid="uid://cuq2s0vdjx30h" path="res://assets/images/island/background/cloud/Small Cloud 2.png" id="6_2qg3m"]
 [ext_resource type="PackedScene" uid="uid://q4v83lf118e8" path="res://scenes/tree/tree_back_center.tscn" id="6_wdc5c"]
 [ext_resource type="PackedScene" uid="uid://i8eg1tjk2q1r" path="res://scenes/tree/tree_front_center.tscn" id="7_lkxmd"]
@@ -572,13 +572,21 @@ tile_set = SubResource("TileSet_cgyim")
 [node name="Monster" type="Node2D" parent="." unique_id=724399020]
 
 [node name="fierceTooth1" parent="Monster" unique_id=2086322676 instance=ExtResource("12_vigbq")]
-position = Vector2(1438, 749)
+position = Vector2(706, 989)
+SPEED = null
+PATROL_DIRECTION = null
+DAMAGE = null
+HEALTH = null
 
 [node name="fierceTooth2" parent="Monster" unique_id=1429502090 instance=ExtResource("12_vigbq")]
 position = Vector2(1171, 598)
+SPEED = null
+PATROL_DIRECTION = null
+DAMAGE = null
+HEALTH = null
 
 [node name="pinkStar1" parent="Monster" unique_id=1762398864 instance=ExtResource("13_m3417")]
-position = Vector2(601, 978)
+position = Vector2(500, 984)
 
 [node name="Collectible" type="Node2D" parent="." unique_id=1211113811]
 
