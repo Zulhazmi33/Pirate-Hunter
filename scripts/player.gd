@@ -54,7 +54,7 @@ var shield_tween: Tween
 var shield_visible := false
 
 # Projectile
-@export_enum("arrow", "slowed", "shield", "teleport") var projectileType: String = "arrow"
+@export_enum("arrow", "slowed", "shield", "teleport") var projectileType: String = "teleport"
 var projectile_types = ["arrow", "slowed", "shield", "teleport"]
 @onready var ability_icon: TextureRect = $Camera2D/CanvasLayer/Panel/TextureRect
 var icon_arrow = preload("res://assets/images/icon/Arrow.png")
@@ -66,8 +66,6 @@ var icon_teleport = preload("res://assets/images/icon/Teleport.png")
 @export var scene_knife: PackedScene = preload("res://scenes/ability/knife.tscn")
 @export var scene_slowed: PackedScene = preload("res://scenes/ability/slowed.tscn")
 @onready var throw_spawn: Marker2D = $ThrowSpawn
-var throw_knife := false #special case
-
 
 # Enemy detection
 var nearby_enemies: Array[CharacterBody2D] = []
@@ -83,7 +81,7 @@ func _ready() -> void:
 	#immune to 'STOP TIME'
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	ability_icon.texture = icon_arrow
+	ability_icon.texture = icon_teleport
 	
 	shield.hide()
 	shield.scale = Vector2(0.1, 0.1)
@@ -209,7 +207,7 @@ func _on_attack_effect_animation_finished() -> void:
 #region -> Detect Player
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	if body.name.begins_with("fierceTooth"):
+	if body.name.begins_with("fierceTooth") or body.name.begins_with("pinkStar"):
 		nearby_enemies.append(body)
 
 
@@ -251,7 +249,7 @@ func _on_animation_finished() -> void:
 		return
 
 	match player.animation:
-		"throw", "aerial_attack":
+		"throw", "shoot", "aerial_attack":
 			attacking = false
 			play_normal_animation()
 
@@ -274,10 +272,10 @@ func _on_player_frame_changed() -> void:
 			enemy.take_damage(DAMAGE, global_position)
 
 	# Projectile throwing
-	if player.animation == "throw" and player.frame == 1:
+	if player.frame == 1 and (player.animation == "throw" or player.animation == "shoot"):
 		var projectile
 		
-		if throw_knife:
+		if player.animation == "throw":
 			projectile = scene_knife.instantiate()
 			get_tree().current_scene.add_child(projectile)
 			projectile.global_position = throw_spawn.global_position
@@ -285,8 +283,7 @@ func _on_player_frame_changed() -> void:
 			projectile.attack_collision.position.x = abs(projectile.attack_collision_x) * projectile.direction
 			projectile.knife.flip_h = player.flip_h
 			
-			throw_knife = false
-		else:
+		elif player.animation == "shoot":
 
 			match projectileType:
 				"arrow":
@@ -334,7 +331,7 @@ func take_damage(damage: float, attacker_position: Vector2) -> void:
 
 #region -> Detect Enemy
 func _on_attack_area_body_entered(body: Node2D) -> void:
-	if body.name.begins_with("fierceTooth"):
+	if body.name.begins_with("fierceTooth") or body.name.begins_with("pinkStar"):
 		enemy = body
 
 func _on_attack_area_body_exited(body: Node2D) -> void:
@@ -346,7 +343,12 @@ func _on_attack_area_body_exited(body: Node2D) -> void:
 #region -> Ability
 func handle_abilities() -> void:
 	if Input.is_action_just_pressed("attack") and knockback_timer <= 0:
-		handle_attack()
+
+		# Check whether LEFT or RIGHT is pressed
+		if Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_RIGHT):
+			throw_projectile()
+		else:
+			handle_attack()
 
 	if Input.is_action_just_pressed("swap"):
 		var current_index = projectile_types.find(projectileType)
@@ -356,17 +358,12 @@ func handle_abilities() -> void:
 		ability_icon.texture = get_projectile_icon(projectileType)
 
 	if Input.is_action_just_pressed("trigger"):
-		if projectileType == 'arrow' or projectileType == 'slowed':
+		if projectileType == "arrow" or projectileType == "slowed":
 			shoot_projectile()
-		elif projectileType == 'shield':
+		elif projectileType == "shield":
 			toggle_shield()
-		elif projectileType == 'teleport' and is_on_floor():
+		elif projectileType == "teleport" and is_on_floor():
 			teleport_to_random_enemy()
-			
-	if Input.is_action_just_pressed("attack"):
-		if Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_RIGHT):
-				throw_knife = true
-				shoot_projectile()
 
 func toggle_shield() -> void:
 	if shield_tween:
@@ -398,6 +395,9 @@ func toggle_shield() -> void:
 		)
 
 func shoot_projectile() -> void:
+	attacking = true
+	player.play("shoot")
+func throw_projectile() -> void:
 	attacking = true
 	player.play("throw")
 	

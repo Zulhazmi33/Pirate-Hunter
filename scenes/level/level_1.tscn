@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://teuyvwrc3wbx" path="res://scenes/tree/tree_front_right.tscn" id="11_vigbq"]
 [ext_resource type="PackedScene" uid="uid://bowpovypvrlq1" path="res://scenes/monster/fierceTooth.tscn" id="12_vigbq"]
 [ext_resource type="PackedScene" uid="uid://bwwpoilbddj3l" path="res://scenes/collectible/coin.tscn" id="13_g6sy5"]
+[ext_resource type="PackedScene" uid="uid://owig1jw1ypdb" path="res://scenes/monster/pinkStar.tscn" id="13_m3417"]
 [ext_resource type="PackedScene" uid="uid://c6l3xjo3uqrtf" path="res://scenes/collectible/diamond.tscn" id="14_q27gu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ewor0"]
@@ -571,10 +572,13 @@ tile_set = SubResource("TileSet_cgyim")
 [node name="Monster" type="Node2D" parent="." unique_id=724399020]
 
 [node name="fierceTooth1" parent="Monster" unique_id=2086322676 instance=ExtResource("12_vigbq")]
-position = Vector2(594, 983)
+position = Vector2(1438, 749)
 
 [node name="fierceTooth2" parent="Monster" unique_id=1429502090 instance=ExtResource("12_vigbq")]
-position = Vector2(1784, 992)
+position = Vector2(1171, 598)
+
+[node name="pinkStar1" parent="Monster" unique_id=1762398864 instance=ExtResource("13_m3417")]
+position = Vector2(601, 978)
 
 [node name="Collectible" type="Node2D" parent="." unique_id=1211113811]
 

@@ -302,13 +302,13 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ibbfc"]
-size = Vector2(59, 66)
+size = Vector2(60, 70)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ruf7"]
 size = Vector2(750, 300)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q27gu"]
-size = Vector2(50, 74)
+size = Vector2(50, 75)
 
 [node name="fierceTooth" type="CharacterBody2D" unique_id=2086322676]
 collision_layer = 2
@@ -319,15 +319,18 @@ script = ExtResource("1_4ruf7")
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
-animation = &"idle"
+animation = &"anticipation"
 autoplay = "idle"
+frame = 2
+frame_progress = 1.0
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=271963828]
-position = Vector2(2.5, 6)
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_ibbfc")
 one_way_collision = true
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1340888484]
+visible = false
 
 [node name="Collision" type="CollisionShape2D" parent="DetectionArea" unique_id=2070541945]
 shape = SubResource("RectangleShape2D_4ruf7")

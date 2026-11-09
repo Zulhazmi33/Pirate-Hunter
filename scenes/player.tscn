@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://b37jksl40ayvf" path="res://assets/images/ability/teleport.png" id="15_dt7fs"]
 [ext_resource type="Texture2D" uid="uid://c44vsa2fjejg3" path="res://assets/images/player/attack/dust/dust_run.png" id="15_fulsm"]
 [ext_resource type="Texture2D" uid="uid://jesup625bsnw" path="res://assets/images/player/attack/sword_effect/attack_1.png" id="16_4r5pv"]
+[ext_resource type="Texture2D" uid="uid://8hd2wh3k1csj" path="res://assets/images/player/attack/body/shoot.png" id="16_wqfne"]
 [ext_resource type="Texture2D" uid="uid://c1vr6rl8b636" path="res://assets/images/player/attack/sword_effect/attack_2.png" id="17_60mlk"]
 [ext_resource type="Texture2D" uid="uid://lkrlntcn618s" path="res://assets/images/player/attack/sword_effect/attack_3.png" id="17_i4ail"]
 [ext_resource type="PackedScene" uid="uid://dgty2luhf0lux" path="res://scenes/ability/shield.tscn" id="17_pf23h"]
@@ -193,6 +194,18 @@ region = Rect2(0, 160, 64, 40)
 [sub_resource type="AtlasTexture" id="AtlasTexture_8svfe"]
 atlas = ExtResource("11_i4ail")
 region = Rect2(0, 200, 64, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uukdq"]
+atlas = ExtResource("16_wqfne")
+region = Rect2(0, 0, 64, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3k3j0"]
+atlas = ExtResource("16_wqfne")
+region = Rect2(0, 40, 64, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0bpox"]
+atlas = ExtResource("16_wqfne")
+region = Rect2(0, 80, 64, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ry8ed"]
 atlas = ExtResource("15_dt7fs")
@@ -465,6 +478,20 @@ animations = [{
 "loop": 1,
 "name": &"run",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uukdq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3k3j0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0bpox")
+}],
+"loop": 0,
+"name": &"shoot",
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -854,7 +881,6 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=2044098937]
-visible = false
 position = Vector2(-1, -7.25)
 shape = SubResource("RectangleShape2D_o5uju")
 
