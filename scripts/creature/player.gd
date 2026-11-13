@@ -296,7 +296,7 @@ func _on_player_frame_changed() -> void:
 			enemy.take_damage(DAMAGE, global_position)
 
 	# Projectile throwing
-	if player.frame == 1 and (player.animation == "throw" or player.animation == "shoot"):
+	if player.frame == 2 and (player.animation == "throw" or player.animation == "shoot"):
 		var projectile
 		
 		if player.animation == "throw":
