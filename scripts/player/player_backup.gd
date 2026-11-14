@@ -1,4 +1,3 @@
-
 extends CharacterBody2D
 
 #region -> import
@@ -68,10 +67,10 @@ var icon_knife = preload("res://assets/images/icon/Knife.png")
 var icon_slowed = preload("res://assets/images/icon/Slowed.png")
 var icon_shield = preload("res://assets/images/icon/Shield.png")
 var icon_teleport = preload("res://assets/images/icon/Teleport.png")
-@export var scene_arrow: PackedScene = preload("res://scenes/ability/arrow.tscn")
-@export var scene_knife: PackedScene = preload("res://scenes/ability/knife.tscn")
-@export var scene_slowed: PackedScene = preload("res://scenes/ability/slowed.tscn")
-@export var scene_shield: PackedScene = preload("res://scenes/ability/shield.tscn")
+@export var scene_knife: PackedScene = preload("res://scenes/ability/physical/knife.tscn")
+@export var scene_arrow: PackedScene = preload("res://scenes/ability/water/arrow.tscn")
+@export var scene_slowed: PackedScene = preload("res://scenes/ability/water/slowed.tscn")
+@export var scene_shield: PackedScene = preload("res://scenes/ability/water/shield.tscn")
 @onready var throw_spawn: Marker2D = $ThrowSpawn
 
 # Enemy detection
@@ -388,7 +387,7 @@ func handle_abilities() -> void:
 		projectileType = projectile_types[current_index]
 		ability_icon.texture = get_projectile_icon(projectileType)
 
-	if Input.is_action_just_pressed("trigger"):
+	if Input.is_action_just_pressed("spell"):
 		if projectileType == "arrow" or projectileType == "slowed":
 			shoot_projectile()
 		elif projectileType == "shield":
@@ -506,4 +505,5 @@ func teleport_to_random_enemy() -> void:
 	get_tree().paused = false
 
 	play_normal_animation()
+
 #endregion

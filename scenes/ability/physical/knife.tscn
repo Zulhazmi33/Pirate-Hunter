@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bp3yl5kdh5arm"]
 
 [ext_resource type="Texture2D" uid="uid://s1fcefxc4sfg" path="res://assets/images/player/attack/sword/embedded.png" id="1_m6mbt"]
-[ext_resource type="Script" uid="uid://jc1p1fwjdccp" path="res://scripts/ability/knife.gd" id="1_vgvw0"]
+[ext_resource type="Script" uid="uid://jc1p1fwjdccp" path="res://scripts/ability/physical/knife.gd" id="1_vgvw0"]
 [ext_resource type="Texture2D" uid="uid://dl275l5u3yae2" path="res://assets/images/player/attack/sword/idle.png" id="1_wxem4"]
 [ext_resource type="Texture2D" uid="uid://dtfwewhtx8kvi" path="res://assets/images/player/attack/sword/throw.png" id="3_vgvw0"]
 

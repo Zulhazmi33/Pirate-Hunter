@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://jovkp5fv52ba"]
 
-[ext_resource type="Script" uid="uid://1jwl64rtenc0" path="res://scripts/ability/arrow.gd" id="1_q7ayk"]
+[ext_resource type="Script" uid="uid://1jwl64rtenc0" path="res://scripts/ability/water/arrow.gd" id="1_q7ayk"]
 [ext_resource type="Texture2D" uid="uid://df10ego03utvt" path="res://assets/images/ability/arrow.png" id="1_yjjkx"]
 [ext_resource type="Texture2D" uid="uid://dutnesq272dfv" path="res://assets/images/ability/blast.png" id="2_47cvs"]
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dgty2luhf0lux"]
 
 [ext_resource type="Texture2D" uid="uid://b1ndorxgx15nq" path="res://assets/images/ability/shield_1.png" id="1_8jg74"]
-[ext_resource type="Script" uid="uid://belu8j8reqktx" path="res://scripts/ability/shield.gd" id="1_m7r5y"]
+[ext_resource type="Script" uid="uid://belu8j8reqktx" path="res://scripts/ability/water/shield.gd" id="1_m7r5y"]
 [ext_resource type="Texture2D" uid="uid://762pjlqu16e2" path="res://assets/images/ability/shield_2.png" id="2_p3ey0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nugy2"]

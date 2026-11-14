@@ -572,21 +572,21 @@ tile_set = SubResource("TileSet_cgyim")
 [node name="Monster" type="Node2D" parent="." unique_id=724399020]
 
 [node name="fierceTooth1" parent="Monster" unique_id=2086322676 instance=ExtResource("12_vigbq")]
-position = Vector2(706, 989)
-SPEED = null
-PATROL_DIRECTION = null
-DAMAGE = null
-HEALTH = null
+position = Vector2(649, 989)
+SPEED = 0.0
+PATROL_DIRECTION = -1.0
+DAMAGE = 0.0
+HEALTH = 0.0
 
 [node name="fierceTooth2" parent="Monster" unique_id=1429502090 instance=ExtResource("12_vigbq")]
 position = Vector2(1171, 598)
-SPEED = null
-PATROL_DIRECTION = null
-DAMAGE = null
-HEALTH = null
+SPEED = 0.0
+PATROL_DIRECTION = -1.0
+DAMAGE = 0.0
+HEALTH = 0.0
 
 [node name="pinkStar1" parent="Monster" unique_id=1762398864 instance=ExtResource("13_m3417")]
-position = Vector2(500, 984)
+position = Vector2(1450, 737)
 
 [node name="Collectible" type="Node2D" parent="." unique_id=1211113811]
 
