@@ -1,8 +1,8 @@
 extends RefCounted
 
 #region -> Import
+# a. import
 @export var scene_arrow: PackedScene = preload("res://scenes/ability/water/arrow.tscn")
-@export var scene_knife: PackedScene = preload("res://scenes/ability/physical/knife.tscn")
 @export var scene_slowed: PackedScene = preload("res://scenes/ability/water/slowed.tscn")
 @export var scene_shield: PackedScene = preload("res://scenes/ability/water/shield.tscn")
 
@@ -17,10 +17,10 @@ var TELEPORT_DISTANCE: float = 100.0
 
 #endregion
 
-func setup(player: CharacterBody2D, shared_attribute) -> void:
+func setup(parent: CharacterBody2D, shared_attribute) -> void:
 	attribute = shared_attribute
 
-	throw_spawn = player.get_node("ThrowSpawn")
+	throw_spawn = parent.get_node("ThrowSpawn")
 	original_spawn_position = throw_spawn.position
 
 
@@ -50,7 +50,7 @@ func shoot(player: AnimatedSprite2D, type: String) -> void:
 		# f. Sprite direction
 		projectile.projectile.flip_h = !player.flip_h
 
-func teleport_to_random_enemy(player: AnimatedSprite2D, player_body: CharacterBody2D, game_tree: SceneTree,  nearby_enemies: Array) -> void:
+func teleport(player: AnimatedSprite2D, player_body: CharacterBody2D, game_tree: SceneTree,  nearby_enemies: Array) -> void:
 	
 	# 1. remove if enemy already die
 	nearby_enemies = nearby_enemies.filter(func(target): return is_instance_valid(target))
@@ -96,3 +96,6 @@ func teleport_to_random_enemy(player: AnimatedSprite2D, player_body: CharacterBo
 		# 3b. Start time
 		game_tree.paused = false
 	
+func duplicate(player: AnimatedSprite2D) -> void:
+	player.play("duplicate")
+	await player.animation_finished

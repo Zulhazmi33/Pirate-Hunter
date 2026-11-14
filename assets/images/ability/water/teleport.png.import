@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://762pjlqu16e2"
-path="res://.godot/imported/shield_2.png-f3a3870f51a387fe74ebf0364a4132d7.ctex"
+uid="uid://ocmjcgi5cm7u"
+path="res://.godot/imported/teleport.png-0f266ed9aadef2bc8a48e4ed565f6d91.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/ability/shield_2.png"
-dest_files=["res://.godot/imported/shield_2.png-f3a3870f51a387fe74ebf0364a4132d7.ctex"]
+source_file="res://assets/images/ability/water/teleport.png"
+dest_files=["res://.godot/imported/teleport.png-0f266ed9aadef2bc8a48e4ed565f6d91.ctex"]
 
 [params]
 

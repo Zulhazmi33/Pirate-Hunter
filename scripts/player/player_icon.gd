@@ -2,13 +2,14 @@ extends RefCounted
 
 var icon: TextureRect
 
-var current_index := 3
-var projectile_types = ["arrow", "slowed", "shield", "teleport"]
+var current_index := 4
+var projectile_types = ["arrow", "slowed", "shield", "teleport", "clone"]
 var icons = {
 	"arrow": preload("res://assets/images/icon/Arrow.png"),
 	"slowed": preload("res://assets/images/icon/Slowed.png"),
 	"shield": preload("res://assets/images/icon/Shield.png"),
-	"teleport": preload("res://assets/images/icon/Teleport.png")
+	"teleport": preload("res://assets/images/icon/Teleport.png"),
+	"clone": preload("res://assets/images/icon/Knife.png")
 }
 
 

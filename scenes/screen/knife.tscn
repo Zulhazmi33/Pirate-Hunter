@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://comx8i1fi270x"]
+
+[ext_resource type="Texture2D" uid="uid://cvt53aoeis3wf" path="res://assets/images/icon/Knife_straight.png" id="1_c1gq5"]
+
+[node name="Knife" type="CanvasLayer" unique_id=1457573565]
+
+[node name="Control" type="Control" parent="." unique_id=1698986069]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ammo_1" type="TextureRect" parent="Control" unique_id=241071754]
+texture_filter = 1
+layout_mode = 0
+offset_left = 60.0
+offset_top = 80.0
+offset_right = 100.0
+offset_bottom = 120.0
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("1_c1gq5")
+
+[node name="ammo_2" type="TextureRect" parent="Control" unique_id=340581988]
+texture_filter = 1
+layout_mode = 0
+offset_left = 110.0
+offset_top = 80.0
+offset_right = 150.0
+offset_bottom = 120.0
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("1_c1gq5")
+
+[node name="ammo_3" type="TextureRect" parent="Control" unique_id=577309683]
+texture_filter = 1
+layout_mode = 0
+offset_left = 160.0
+offset_top = 80.0
+offset_right = 200.0
+offset_bottom = 120.0
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("1_c1gq5")
+
+[node name="ammo_4" type="TextureRect" parent="Control" unique_id=1564964106]
+texture_filter = 1
+layout_mode = 0
+offset_left = 210.0
+offset_top = 80.0
+offset_right = 250.0
+offset_bottom = 120.0
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("1_c1gq5")
+
+[node name="ammo_5" type="TextureRect" parent="Control" unique_id=786283194]
+texture_filter = 1
+layout_mode = 0
+offset_left = 260.0
+offset_top = 80.0
+offset_right = 300.0
+offset_bottom = 120.0
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("1_c1gq5")
+
+[node name="ammo_6" type="TextureRect" parent="Control" unique_id=547484740]
+texture_filter = 1
+layout_mode = 0
+offset_left = 310.0
+offset_top = 80.0
+offset_right = 350.0
+offset_bottom = 120.0
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("1_c1gq5")
+
+[node name="ammo_7" type="TextureRect" parent="Control" unique_id=539660605]
+texture_filter = 1
+layout_mode = 0
+offset_left = 360.0
+offset_top = 80.0
+offset_right = 400.0
+offset_bottom = 120.0
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("1_c1gq5")

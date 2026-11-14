@@ -2,10 +2,10 @@ extends RefCounted
 
 #1. Mana
 var energy_mana: TextureRect
-const mana_initial := 260.0 
+const mana_limit := 260.0 
 var mana_regen_rate := 5.0
 var mana_timer: float = 0.0
-var MANA := mana_initial #based on actual size of x-axis
+var MANA := mana_limit #based on actual size of x-axis
 
 func setup(player: CharacterBody2D) -> void:
 	energy_mana = player.get_node("Camera2D/lifebar_player/Control/energy_mana")
@@ -24,7 +24,7 @@ func mana_regen(delta) -> void :
 	mana_timer += delta
 	if mana_timer >= 1.0:
 		mana_timer = 0.0
-		if MANA < mana_initial:
+		if MANA < mana_limit:
 			MANA += mana_regen_rate
 			energy_mana.size.x += mana_regen_rate
 #endregion

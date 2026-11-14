@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bu48qcgrf8tk5" path="res://assets/images/player/attack/body/aerial_2.png" id="5_oprun"]
 [ext_resource type="Texture2D" uid="uid://fgluogx14foj" path="res://assets/images/player/attack/body/fall.png" id="6_a8ls1"]
 [ext_resource type="Texture2D" uid="uid://bqny6pvmwwn87" path="res://assets/images/player/attack/body/dead.png" id="7_31cv2"]
+[ext_resource type="Texture2D" uid="uid://c02g8gedobppg" path="res://assets/images/ability/water/duplicate.png" id="7_gl8cc"]
 [ext_resource type="Texture2D" uid="uid://cxqjxmclsd8kq" path="res://assets/images/player/attack/body/ground.png" id="7_qfm1y"]
 [ext_resource type="Texture2D" uid="uid://bwyv4xwalyytj" path="res://assets/images/player/attack/body/hit.png" id="8_fulsm"]
 [ext_resource type="Texture2D" uid="uid://jwh8bnuybntu" path="res://assets/images/player/attack/body/dead_ground.png" id="8_pf23h"]
@@ -22,15 +23,16 @@
 [ext_resource type="Texture2D" uid="uid://c44vsa2fjejg3" path="res://assets/images/player/attack/dust/dust_run.png" id="15_fulsm"]
 [ext_resource type="Texture2D" uid="uid://de7ur44jg5u78" path="res://assets/images/player/attack/body/shoot2.png" id="15_wnwbv"]
 [ext_resource type="Texture2D" uid="uid://jesup625bsnw" path="res://assets/images/player/attack/sword_effect/attack_1.png" id="16_4r5pv"]
-[ext_resource type="Texture2D" uid="uid://ocmjcgi5cm7u" path="res://assets/images/ability/teleport.png" id="16_gl8cc"]
+[ext_resource type="Texture2D" uid="uid://ocmjcgi5cm7u" path="res://assets/images/ability/water/teleport.png" id="16_gl8cc"]
 [ext_resource type="Texture2D" uid="uid://c1vr6rl8b636" path="res://assets/images/player/attack/sword_effect/attack_2.png" id="17_60mlk"]
 [ext_resource type="Texture2D" uid="uid://lkrlntcn618s" path="res://assets/images/player/attack/sword_effect/attack_3.png" id="17_i4ail"]
 [ext_resource type="PackedScene" uid="uid://dgty2luhf0lux" path="res://scenes/ability/water/shield.tscn" id="17_pf23h"]
-[ext_resource type="Texture2D" uid="uid://1d6ba4m10uua" path="res://assets/images/ability/teleport_old.png" id="17_wnwbv"]
+[ext_resource type="Texture2D" uid="uid://1d6ba4m10uua" path="res://assets/images/ability/water/teleport_old.png" id="17_wnwbv"]
 [ext_resource type="Texture2D" uid="uid://b5gnlwgp0ssaq" path="res://assets/images/player/attack/sword_effect/aerial_1.png" id="19_a38lo"]
 [ext_resource type="Texture2D" uid="uid://mhgrgjo86hpu" path="res://assets/images/player/attack/sword_effect/aerial_2.png" id="20_4ni07"]
 [ext_resource type="PackedScene" uid="uid://cy3ps5xs2mfi4" path="res://scenes/lifebar/lifebar_player.tscn" id="23_4ni07"]
 [ext_resource type="PackedScene" uid="uid://dclhnnl03nv17" path="res://scenes/screen/swap.tscn" id="28_pf23h"]
+[ext_resource type="PackedScene" uid="uid://comx8i1fi270x" path="res://scenes/screen/knife.tscn" id="33_487ah"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wnwbv"]
 atlas = ExtResource("4_f1ej7")
@@ -111,6 +113,54 @@ region = Rect2(192, 0, 64, 40)
 [sub_resource type="AtlasTexture" id="AtlasTexture_2a33p"]
 atlas = ExtResource("8_pf23h")
 region = Rect2(0, 0, 64, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ccnn6"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 0, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mcvyg"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 40, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ealyq"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 80, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qms75"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 120, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1lovq"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 160, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0usgs"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 200, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c7iw1"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 240, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fccsy"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 280, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4c5e"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 320, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72noi"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 360, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0j382"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 400, 92, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3jfe"]
+atlas = ExtResource("7_gl8cc")
+region = Rect2(0, 440, 92, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hax0n"]
 atlas = ExtResource("6_a8ls1")
@@ -466,6 +516,47 @@ animations = [{
 "loop": 0,
 "name": &"dead",
 "speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ccnn6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mcvyg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ealyq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qms75")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1lovq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0usgs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c7iw1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fccsy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4c5e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72noi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0j382")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3jfe")
+}],
+"loop": 0,
+"name": &"duplicate",
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1021,17 +1112,18 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=1478314835]
-collision_mask = 11
+collision_mask = 75
 script = ExtResource("1_3v2ag")
 
 [node name="Player" type="AnimatedSprite2D" parent="." unique_id=1145116650]
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
-animation = &"idle"
+animation = &"duplicate"
 autoplay = "idle"
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=2044098937]
+visible = false
 position = Vector2(-1, -7.25)
 shape = SubResource("RectangleShape2D_o5uju")
 
@@ -1049,7 +1141,8 @@ collision_mask = 2
 shape = SubResource("RectangleShape2D_ibbfc")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1924727366]
-collision_mask = 2
+visible = false
+collision_mask = 66
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=41699245]
 position = Vector2(0, -11)
@@ -1130,6 +1223,8 @@ limit_bottom = 1440
 [node name="lifebar_player" parent="Camera2D" unique_id=1192740705 instance=ExtResource("23_4ni07")]
 
 [node name="CanvasLayer" parent="Camera2D" unique_id=1802760569 instance=ExtResource("28_pf23h")]
+
+[node name="Knife" parent="Camera2D" unique_id=1457573565 instance=ExtResource("33_487ah")]
 
 [connection signal="animation_finished" from="Player" to="." method="_on_player_animation_finished"]
 [connection signal="frame_changed" from="Player" to="." method="_on_player_frame_changed"]

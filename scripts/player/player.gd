@@ -25,21 +25,23 @@ var is_attacking = false
 #endregion
 
 
-
 #region 1) -> Starter
 func _ready() -> void:
-	#initialized classes
+	# a. initialized classes
 	attribute.setup(self)
 	icon.setup(self)
 	physical.setup(self)
 	water_magic.setup(self, attribute)
 	
-	#immune to 'time stop'
+	# b. immune to 'time stop'
 	player.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	#initialise collision
+	# c. initialise collision
 	attack_area.position.x = attackArea_position
 	
+	# d. initialise knife's ammo
+	physical.ammo_initialise()
+
 #endregion
 
 
@@ -47,6 +49,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#mana regen
 	attribute.mana_regen(delta)
+	
 #endregion
 
 
@@ -88,10 +91,13 @@ func _physics_process(delta: float) -> void:
 	#region d) -> Attack (physical)
 		if Input.is_action_just_pressed("attack"):
 			if not is_attacking:
-				print('attack')
 				is_attacking = true
-				player.play("attack_1")
-				physical.detect_enemy()
+				if Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_RIGHT):
+					# a. throw knife
+					player.play("throw")
+				else:
+					# b. basic attack
+					player.play("attack_1")
 	#endregion
 	
 	#region e) -> Attack (water magic)
@@ -101,15 +107,21 @@ func _physics_process(delta: float) -> void:
 		# 'trigger'
 		if Input.is_action_just_pressed("spell"):
 			if not is_attacking:
-				#a) shoot
+				# a. shoot
 				if icon.getType() == 'arrow' or icon.getType() == 'slowed':
 					is_attacking = true
 					player.play("shoot")
-				#b) teleport
+				# b. teleport
 				elif icon.getType() == "teleport":
 					if is_on_floor():
 						is_attacking = true
-						await water_magic.teleport_to_random_enemy(player, self, get_tree(), nearby_enemies)
+						await water_magic.teleport(player, self, get_tree(), nearby_enemies)
+						is_attacking = false
+				# c. clone
+				elif icon.getType() == "clone":
+					if is_on_floor():
+						is_attacking = true
+						await water_magic.duplicate(player)
 						is_attacking = false
 	#endregion
 	
@@ -135,21 +147,37 @@ func _physics_process(delta: float) -> void:
 
 #region 4) -> Signal
 
+# a. remove 'is_attacking'
 func _on_player_animation_finished() -> void:
 	if player.animation == "attack_1":
 		is_attacking = false
-	if player.animation == "shoot":
+	elif player.animation == "throw":
+		is_attacking = false
+	elif player.animation == "shoot":
 		is_attacking = false
 	
+# b. Unleash attack
 func _on_player_frame_changed() -> void:
-	if player.animation == "shoot":
-		if player.frame == 1:
+	if player.frame == 1:
+		if player.animation == "shoot":
 			water_magic.shoot(player, icon.getType())
-
+		elif player.animation == "throw":
+			physical.throw(player)
+		elif player.animation == "attack_1":
+			for body in attack_area.get_overlapping_bodies():
+				# a. collect 'knife'
+				if body.name == "Knife":
+					physical.ammo_increase(body)
+				# b. attack 'enemy'
+				else:
+					physical.detect_enemy()
+			
+# c. detect and 'stored' enemy's data
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body.name.begins_with("fierceTooth") or body.name.begins_with("pinkStar"):
 		nearby_enemies.append(body)
 
+# d. detect and 'removed' enemy's data
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	if body in nearby_enemies:
 		nearby_enemies.erase(body)
