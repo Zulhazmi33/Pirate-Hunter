@@ -26,7 +26,6 @@
 [ext_resource type="Texture2D" uid="uid://ocmjcgi5cm7u" path="res://assets/images/ability/water/teleport.png" id="16_gl8cc"]
 [ext_resource type="Texture2D" uid="uid://c1vr6rl8b636" path="res://assets/images/player/attack/sword_effect/attack_2.png" id="17_60mlk"]
 [ext_resource type="Texture2D" uid="uid://lkrlntcn618s" path="res://assets/images/player/attack/sword_effect/attack_3.png" id="17_i4ail"]
-[ext_resource type="PackedScene" uid="uid://dgty2luhf0lux" path="res://scenes/ability/water/shield.tscn" id="17_pf23h"]
 [ext_resource type="Texture2D" uid="uid://1d6ba4m10uua" path="res://assets/images/ability/water/teleport_old.png" id="17_wnwbv"]
 [ext_resource type="Texture2D" uid="uid://b5gnlwgp0ssaq" path="res://assets/images/player/attack/sword_effect/aerial_1.png" id="19_a38lo"]
 [ext_resource type="Texture2D" uid="uid://mhgrgjo86hpu" path="res://assets/images/player/attack/sword_effect/aerial_2.png" id="20_4ni07"]
@@ -1119,7 +1118,7 @@ script = ExtResource("1_3v2ag")
 texture_filter = 1
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
-animation = &"duplicate"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=2044098937]
@@ -1128,10 +1127,7 @@ position = Vector2(-1, -7.25)
 shape = SubResource("RectangleShape2D_o5uju")
 
 [node name="ThrowSpawn" type="Marker2D" parent="." unique_id=1075141554]
-position = Vector2(100, 0)
-
-[node name="Shield" parent="." unique_id=1620796632 instance=ExtResource("17_pf23h")]
-visible = false
+position = Vector2(70, 0)
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1429096565]
 visible = false
@@ -1141,7 +1137,6 @@ collision_mask = 2
 shape = SubResource("RectangleShape2D_ibbfc")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1924727366]
-visible = false
 collision_mask = 66
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=41699245]

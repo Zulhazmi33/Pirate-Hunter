@@ -13,6 +13,4 @@ func _ready():
 
 
 func select_item(id: int):
-	print('id = ',id)
-	print('item_selected = ',item_selected)
 	item_selected.emit(id)

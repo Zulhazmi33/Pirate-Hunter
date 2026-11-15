@@ -3,6 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://3w5oessnsmsc" path="res://assets/images/life bars/lifeBar_enemy.png" id="1_upp2e"]
 [ext_resource type="Texture2D" uid="uid://djphpbar1kexu" path="res://assets/images/life bars/color_red.png" id="2_505l8"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_upp2e"]
+size = Vector2(750, 300)
+
 [node name="lifebar_enemy" type="Node2D" unique_id=1192740705]
 
 [node name="shell" type="NinePatchRect" parent="." unique_id=1763122217]
@@ -21,3 +24,10 @@ offset_top = -66.0
 offset_right = 35.0
 offset_bottom = -61.0
 texture = ExtResource("2_505l8")
+
+[node name="DetectionArea" type="Area2D" parent="energy" unique_id=710696387]
+visible = false
+
+[node name="Collision" type="CollisionShape2D" parent="energy/DetectionArea" unique_id=458129206]
+visible = false
+shape = SubResource("RectangleShape2D_upp2e")

@@ -10,7 +10,7 @@ var throw_spawn: Marker2D
 var original_spawn_position: Vector2
 
 # c. knife
-const ammo_limit = 3
+const ammo_limit = 5
 var AMMO = ammo_limit
 var ammo_icon = []
 
@@ -36,13 +36,8 @@ func setup(parent: CharacterBody2D) -> void:
 		parent.get_node("Camera2D/Knife/Control/ammo_7")
 	]
 
-#detect enemy
-func detect_enemy() -> void:
-	for body in attack_area.get_overlapping_bodies():
-		if body.name.begins_with("fierceTooth") or body.name.begins_with("pinkStar"):
-			print("KILL")
 
-#ammo
+#region 1) -> Knife
 func ammo_initialise() -> void:
 	for i in range(ammo_icon.size()):
 		ammo_icon[i].visible = i < AMMO
@@ -58,7 +53,6 @@ func ammo_increase(knife: CharacterBody2D) -> void:
 		ammo_icon[i].visible = i < AMMO
 	knife.queue_free()
 	
-#throw knife	
 func throw(player: AnimatedSprite2D) -> void:
 	var projectile = scene_knife.instantiate()
 	
@@ -73,7 +67,11 @@ func throw(player: AnimatedSprite2D) -> void:
 		projectile.global_position = throw_spawn.global_position
 		# e. Direction
 		projectile.direction = -1.0 if player.flip_h else 1.0
-		# f. Collision direction
+		# f. Collision direction (normal)
 		projectile.attack_collision.position.x = abs(projectile.attack_collision_x) * projectile.direction
-		# g. Sprite direction
+		# g. Collision direction (attack area)
+		projectile.collision.position.x = abs(projectile.collision_x) * projectile.direction
+		# h. Sprite direction
 		projectile.projectile.flip_h = player.flip_h
+	
+#endregion	

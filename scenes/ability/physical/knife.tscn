@@ -1,49 +1,49 @@
 [gd_scene format=3 uid="uid://bp3yl5kdh5arm"]
 
 [ext_resource type="Script" uid="uid://jc1p1fwjdccp" path="res://scripts/ability/physical/knife.gd" id="1_vgvw0"]
-[ext_resource type="Texture2D" uid="uid://dl275l5u3yae2" path="res://assets/images/player/attack/sword/idle.png" id="1_wxem4"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u7qif"]
-atlas = ExtResource("1_wxem4")
-region = Rect2(0, 20, 20, 20)
+[ext_resource type="Texture2D" uid="uid://2cymguo5wa70" path="res://assets/images/player/attack/sword/idle_long.png" id="2_u7qif"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_85o20"]
-atlas = ExtResource("1_wxem4")
-region = Rect2(0, 0, 20, 20)
+atlas = ExtResource("2_u7qif")
+region = Rect2(160, 0, 32, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3cd7h"]
+atlas = ExtResource("2_u7qif")
+region = Rect2(0, 0, 32, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kkitg"]
-atlas = ExtResource("1_wxem4")
-region = Rect2(20, 0, 20, 20)
+atlas = ExtResource("2_u7qif")
+region = Rect2(32, 0, 32, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8pmmc"]
-atlas = ExtResource("1_wxem4")
-region = Rect2(40, 0, 20, 20)
+atlas = ExtResource("2_u7qif")
+region = Rect2(64, 0, 32, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g3f41"]
-atlas = ExtResource("1_wxem4")
-region = Rect2(0, 20, 20, 20)
+atlas = ExtResource("2_u7qif")
+region = Rect2(96, 0, 32, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kmju2"]
-atlas = ExtResource("1_wxem4")
-region = Rect2(20, 20, 20, 20)
+atlas = ExtResource("2_u7qif")
+region = Rect2(128, 0, 32, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8a34l"]
-atlas = ExtResource("1_wxem4")
-region = Rect2(40, 20, 20, 20)
+atlas = ExtResource("2_u7qif")
+region = Rect2(160, 0, 32, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kbhes"]
-atlas = ExtResource("1_wxem4")
-region = Rect2(0, 40, 20, 20)
+atlas = ExtResource("2_u7qif")
+region = Rect2(192, 0, 32, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q883x"]
-atlas = ExtResource("1_wxem4")
-region = Rect2(20, 40, 20, 20)
+atlas = ExtResource("2_u7qif")
+region = Rect2(224, 0, 32, 20)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ibbfc"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_u7qif")
+"texture": SubResource("AtlasTexture_85o20")
 }],
 "loop": 1,
 "name": &"stuck",
@@ -51,7 +51,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_85o20")
+"texture": SubResource("AtlasTexture_3cd7h")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kkitg")
@@ -80,10 +80,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yfqr4"]
-size = Vector2(40, 15)
+size = Vector2(70, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ibbfc"]
-size = Vector2(40, 10)
+size = Vector2(70, 15)
 
 [node name="Knife" type="CharacterBody2D" unique_id=1334913404]
 collision_layer = 64
@@ -96,9 +96,10 @@ scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_ibbfc")
 animation = &"throw"
 autoplay = "throw"
+frame_progress = 0.09508921
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=1969900396]
-position = Vector2(-8, 7)
+position = Vector2(8, 0)
 shape = SubResource("RectangleShape2D_yfqr4")
 one_way_collision = true
 
@@ -107,7 +108,7 @@ visible = false
 collision_mask = 10
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=670029315]
-position = Vector2(-8, 7)
+position = Vector2(8, 0)
 shape = SubResource("RectangleShape2D_ibbfc")
 
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]

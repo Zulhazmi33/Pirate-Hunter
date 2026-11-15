@@ -28,11 +28,10 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 		
 func _on_attack_area_body_entered(body):
-	print(body.name)
 	if body.name.begins_with("TileMapLayer"):
 		queue_free()
 		
-	elif body.name.begins_with("fierceTooth") or body.name.begins_with("pinkStar"):
+	elif Global.monster_list(body):
 		enemy = body
 		
 		#enemy.take_damage(DAMAGE, global_position)

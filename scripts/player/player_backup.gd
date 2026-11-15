@@ -230,7 +230,7 @@ func _on_attack_effect_animation_finished() -> void:
 #region -> Detect Player
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	if body.name.begins_with("fierceTooth") or body.name.begins_with("pinkStar"):
+	if Global.monster_list(body):
 		nearby_enemies.append(body)
 
 
@@ -361,7 +361,7 @@ func take_damage(damage: float, attacker_position: Vector2) -> void:
 
 #region -> Detect Enemy
 func _on_attack_area_body_entered(body: Node2D) -> void:
-	if body.name.begins_with("fierceTooth") or body.name.begins_with("pinkStar"):
+	if Global.monster_list(body):
 		enemy = body
 
 func _on_attack_area_body_exited(body: Node2D) -> void:

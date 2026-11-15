@@ -2,7 +2,6 @@
 extends CharacterBody2D
 
 #region 0) -> Variable
-
 # 1. Import
 @onready var player: AnimatedSprite2D = $Player
 @onready var sound_jump: AudioStreamPlayer2D = $Jump
@@ -16,6 +15,8 @@ var attribute = preload("res://scripts/player/player_attribute.gd").new()
 
 # 2. Attribute
 const SPEED = 300.0
+const DAMAGE = 30.0
+const FORCE = 300.0
 const JUMP_VELOCITY = -900.0
 const attackArea_position = 50
 
@@ -146,7 +147,6 @@ func _physics_process(delta: float) -> void:
 
 
 #region 4) -> Signal
-
 # a. remove 'is_attacking'
 func _on_player_animation_finished() -> void:
 	if player.animation == "attack_1":
@@ -170,11 +170,13 @@ func _on_player_frame_changed() -> void:
 					physical.ammo_increase(body)
 				# b. attack 'enemy'
 				else:
-					physical.detect_enemy()
+					for enemy in attack_area.get_overlapping_bodies():
+						if Global.monster_list(enemy):
+							enemy.monster.health_reduce(DAMAGE, FORCE, global_position)
 			
 # c. detect and 'stored' enemy's data
 func _on_detection_area_body_entered(body: Node2D) -> void:
-	if body.name.begins_with("fierceTooth") or body.name.begins_with("pinkStar"):
+	if Global.monster_list(body):
 		nearby_enemies.append(body)
 
 # d. detect and 'removed' enemy's data
