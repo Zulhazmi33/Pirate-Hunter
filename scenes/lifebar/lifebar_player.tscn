@@ -3,9 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://gf0ej5f8pr0y" path="res://assets/images/life bars/lifeBar_blank.png" id="1_a8fcq"]
 [ext_resource type="Texture2D" uid="uid://djphpbar1kexu" path="res://assets/images/life bars/color_red.png" id="2_a8fcq"]
 [ext_resource type="Texture2D" uid="uid://ceh1na30rhmtx" path="res://assets/images/life bars/lifebar_mix.png" id="2_uufan"]
-[ext_resource type="Texture2D" uid="uid://drdvsvwax5gps" path="res://assets/images/life bars/color_blue.png" id="3_uufan"]
+[ext_resource type="Texture2D" uid="uid://bpbu53os7v3bp" path="res://assets/images/life bars/color_blue.png" id="3_uufan"]
 
-[node name="lifebar_player" type="CanvasLayer" unique_id=294219547]
+[node name="Lifebar_player" type="CanvasLayer" unique_id=294219547]
 
 [node name="Control" type="Control" parent="." unique_id=1201554195]
 layout_mode = 3
@@ -27,29 +27,29 @@ texture = ExtResource("1_a8fcq")
 [node name="shell" type="TextureRect" parent="Control" unique_id=393304231]
 texture_filter = 1
 layout_mode = 0
-offset_left = 31.0
-offset_top = -32.0
-offset_right = 306.0
-offset_bottom = 38.0
-scale = Vector2(2, 2)
+offset_left = 30.0
+offset_top = -22.0
+offset_right = 330.0
+offset_bottom = 48.0
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_uufan")
 
 [node name="energy_health" type="TextureRect" parent="Control" unique_id=242615872]
 texture_filter = 1
 layout_mode = 0
-offset_left = 63.0
-offset_top = 29.0
-offset_right = 288.0
-offset_bottom = 33.0
-scale = Vector2(2, 2)
+offset_left = -35.0
+offset_top = 25.0
+offset_right = 315.0
+offset_bottom = 29.0
+scale = Vector2(1.3, 1.3)
 texture = ExtResource("2_a8fcq")
 
 [node name="energy_mana" type="TextureRect" parent="Control" unique_id=850741009]
 texture_filter = 1
 layout_mode = 0
-offset_left = -6.0
-offset_top = 43.0
-offset_right = 254.0
-offset_bottom = 51.0
-scale = Vector2(2, 2)
+offset_left = -35.0
+offset_top = 35.0
+offset_right = 315.0
+offset_bottom = 39.0
+scale = Vector2(1.3, 1.3)
 texture = ExtResource("3_uufan")

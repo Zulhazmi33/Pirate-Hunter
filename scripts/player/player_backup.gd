@@ -34,7 +34,7 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -900.0
 
 # Health
-@onready var energy_health: TextureRect = $Camera2D/lifebar_player/Control/energy_health
+@onready var energy_health: TextureRect = $Camera2D/Lifebar_player/Control/energy_health
 var HEALTH := 225.0 #based on actual size of x-axis
 var isDead := false
 var invincible := false
@@ -42,7 +42,7 @@ var invincible_timer := 0.0
 var invincible_flash_timer := 0.0
 
 # MANA
-@onready var energy_mana: TextureRect = $Camera2D/lifebar_player/Control/energy_mana
+@onready var energy_mana: TextureRect = $Camera2D/Lifebar_player/Control/energy_mana
 const MANA_initial := 260.0 
 var MANA := MANA_initial #based on actual size of x-axis
 var MANA_regen_rate := 5

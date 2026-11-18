@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://bdbqxq5i8qtw6"]
+
+[ext_resource type="Texture2D" uid="uid://bec7iweb34jak" path="res://assets/images/popup/menu.png" id="1_gv2bd"]
+[ext_resource type="Texture2D" uid="uid://c70epagiu1hab" path="res://assets/images/popup/button_full.png" id="2_ojwgl"]
+
+[node name="Menu" type="CanvasLayer" unique_id=656236035]
+
+[node name="Control" type="Control" parent="." unique_id=1060981610]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="board" type="TextureRect" parent="Control" unique_id=1663576480]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_gv2bd")
+
+[node name="Control" type="HBoxContainer" parent="Control/board" unique_id=443141524]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.84700006
+anchor_top = 0.72200006
+anchor_right = 0.84700006
+anchor_bottom = 0.72200006
+offset_left = -475.07996
+offset_top = -370.88
+offset_right = -401.07996
+offset_bottom = -330.88
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(7, 7)
+
+[node name="Button_1" type="Button" parent="Control/board/Control" unique_id=296937115]
+texture_filter = 1
+layout_mode = 2
+icon = ExtResource("2_ojwgl")
+
+[node name="Button_2" type="Button" parent="Control/board/Control" unique_id=1032809828]
+texture_filter = 1
+layout_mode = 2
+icon = ExtResource("2_ojwgl")
+
+[node name="Button_3" type="Button" parent="Control/board/Control" unique_id=1603241360]
+texture_filter = 1
+layout_mode = 2
+icon = ExtResource("2_ojwgl")

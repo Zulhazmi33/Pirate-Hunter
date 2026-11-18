@@ -36,7 +36,8 @@ func _on_attack_area_body_entered(body):
 		
 		#enemy.take_damage(DAMAGE, global_position)
 		#enemy.slow_movement()
-		queue_free()
+		if !body.monster.is_dead:
+			queue_free()
 		
 func _on_attack_area_body_exited(body):
 	enemy = null

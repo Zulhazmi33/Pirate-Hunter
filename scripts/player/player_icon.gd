@@ -14,7 +14,7 @@ var icons = {
 
 
 func setup(player: CharacterBody2D) -> void:
-	icon = player.get_node("Camera2D/CanvasLayer/Icon")
+	icon = player.get_node("Camera2D/Icon/Icon")
 	update_icon()
 
 

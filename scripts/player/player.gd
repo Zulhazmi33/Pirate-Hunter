@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var player: AnimatedSprite2D = $Player
 @onready var sound_jump: AudioStreamPlayer2D = $Jump
 @onready var attack_area: Area2D = $AttackArea
+@onready var menu: CanvasLayer = $Camera2D/Menu
 var nearby_enemies: Array[CharacterBody2D] = []
 
 var physical = preload("res://scripts/player/player_physical.gd").new()
@@ -22,6 +23,7 @@ const attackArea_position = 50
 
 # 3. Switch/Condition
 var is_attacking = false
+var is_menu = false
 
 #endregion
 
@@ -42,6 +44,10 @@ func _ready() -> void:
 	
 	# d. initialise knife's ammo
 	physical.ammo_initialise()
+	
+	#e. hide menu
+	menu.hide()
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 #endregion
 
@@ -124,6 +130,19 @@ func _physics_process(delta: float) -> void:
 						is_attacking = true
 						await water_magic.duplicate(player)
 						is_attacking = false
+	#endregion
+	
+	#region f) -> Menu bar
+		if Input.is_action_just_pressed("pause"):
+			if is_menu:
+				is_menu = false
+				get_tree().paused = false
+				menu.hide()
+			else:
+				is_menu = true
+				get_tree().paused = true
+				menu.show()
+	
 	#endregion
 	
 	#region LAST) -> Animation

@@ -26,20 +26,20 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ybdja")
 
 [node name="Shell" type="TextureRect" parent="." unique_id=848771832]
 texture_filter = 1
-offset_left = -35.0
-offset_top = -30.0
-offset_right = 5.0
-offset_bottom = 10.0
-scale = Vector2(3.5, 3.5)
+offset_left = -30.0
+offset_top = -25.0
+offset_right = 10.0
+offset_bottom = 15.0
+scale = Vector2(3, 3)
 texture = ExtResource("1_a51eq")
 
 [node name="Icon" type="TextureRect" parent="." unique_id=455360486]
 texture_filter = 1
 custom_minimum_size = Vector2(32, 32)
-offset_left = 11.0
-offset_top = 14.000001
-offset_right = 43.0
-offset_bottom = 46.0
-scale = Vector2(1.5, 1.5)
+offset_left = 10.000001
+offset_top = 13.0
+offset_right = 42.0
+offset_bottom = 45.0
+scale = Vector2(1.25, 1.25)
 expand_mode = 1
 stretch_mode = 5

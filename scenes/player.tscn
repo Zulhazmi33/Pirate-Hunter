@@ -32,6 +32,7 @@
 [ext_resource type="PackedScene" uid="uid://cy3ps5xs2mfi4" path="res://scenes/lifebar/lifebar_player.tscn" id="23_4ni07"]
 [ext_resource type="PackedScene" uid="uid://dclhnnl03nv17" path="res://scenes/screen/swap.tscn" id="28_pf23h"]
 [ext_resource type="PackedScene" uid="uid://comx8i1fi270x" path="res://scenes/screen/knife.tscn" id="33_487ah"]
+[ext_resource type="PackedScene" uid="uid://bdbqxq5i8qtw6" path="res://scenes/popup/menu.tscn" id="33_md1ol"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wnwbv"]
 atlas = ExtResource("4_f1ej7")
@@ -1211,15 +1212,17 @@ volume_db = 9.0
 pitch_scale = 1.3
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=532523521]
-zoom = Vector2(1.3, 1.3)
+offset = Vector2(0, -50)
 limit_right = 3840
 limit_bottom = 1440
 
-[node name="lifebar_player" parent="Camera2D" unique_id=1192740705 instance=ExtResource("23_4ni07")]
+[node name="Lifebar_player" parent="Camera2D" unique_id=1192740705 instance=ExtResource("23_4ni07")]
 
-[node name="CanvasLayer" parent="Camera2D" unique_id=1802760569 instance=ExtResource("28_pf23h")]
+[node name="Icon" parent="Camera2D" unique_id=1802760569 instance=ExtResource("28_pf23h")]
 
 [node name="Knife" parent="Camera2D" unique_id=1457573565 instance=ExtResource("33_487ah")]
+
+[node name="Menu" parent="Camera2D" unique_id=656236035 instance=ExtResource("33_md1ol")]
 
 [connection signal="animation_finished" from="Player" to="." method="_on_player_animation_finished"]
 [connection signal="frame_changed" from="Player" to="." method="_on_player_frame_changed"]

@@ -454,7 +454,7 @@ physics_layer_0/collision_layer = 8
 physics_layer_0/collision_mask = 7
 sources/0 = SubResource("TileSetAtlasSource_0f3yk")
 
-[node name="LevelRoot" type="Node2D" unique_id=1922312303]
+[node name="Level_1" type="Node2D" unique_id=1922312303]
 
 [node name="Background" type="TextureRect" parent="." unique_id=849693754]
 texture_filter = 1
