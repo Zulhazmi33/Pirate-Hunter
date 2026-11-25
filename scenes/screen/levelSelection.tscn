@@ -1,0 +1,312 @@
+[gd_scene format=3 uid="uid://dd1rm6juylus2"]
+
+[ext_resource type="Texture2D" uid="uid://bec7iweb34jak" path="res://assets/images/popup/menu.png" id="1_6cpxy"]
+[ext_resource type="Texture2D" uid="uid://c70epagiu1hab" path="res://assets/images/popup/button.png" id="2_n0iqx"]
+[ext_resource type="Texture2D" uid="uid://b86t8rmxiwv6" path="res://assets/images/popup/button_light.png" id="3_5dn7f"]
+[ext_resource type="FontFile" uid="uid://ca8fjpxlwggs1" path="res://assets/text/PixelGame-R9AZe.otf" id="3_sx4pg"]
+
+[node name="LevelSelection" type="Control" unique_id=1250252937]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="." unique_id=407007350]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.2
+anchor_right = 0.8
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_6cpxy")
+
+[node name="Control" type="Control" parent="Background" unique_id=1739336044]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LevelGrid" type="GridContainer" parent="Background/Control" unique_id=1448750189]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -168.0
+offset_top = -69.0
+offset_right = 92.0
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 5
+
+[node name="Button1" type="TextureButton" parent="Background/Control/LevelGrid" unique_id=1577746]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_vertical = 2
+texture_normal = ExtResource("2_n0iqx")
+texture_hover = ExtResource("3_5dn7f")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Background/Control/LevelGrid/Button1" unique_id=939377920]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -14.5
+offset_right = 5.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_fonts/font = ExtResource("3_sx4pg")
+text = "1"
+
+[node name="Button2" type="TextureButton" parent="Background/Control/LevelGrid" unique_id=236396392]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_vertical = 2
+texture_normal = ExtResource("2_n0iqx")
+texture_hover = ExtResource("3_5dn7f")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Background/Control/LevelGrid/Button2" unique_id=1536388389]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -14.5
+offset_right = 5.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_fonts/font = ExtResource("3_sx4pg")
+text = "2"
+
+[node name="Button3" type="TextureButton" parent="Background/Control/LevelGrid" unique_id=1772499206]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_vertical = 2
+texture_normal = ExtResource("2_n0iqx")
+texture_hover = ExtResource("3_5dn7f")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Background/Control/LevelGrid/Button3" unique_id=685416805]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -14.5
+offset_right = 5.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_fonts/font = ExtResource("3_sx4pg")
+text = "3"
+
+[node name="Button4" type="TextureButton" parent="Background/Control/LevelGrid" unique_id=2979518]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_vertical = 2
+texture_normal = ExtResource("2_n0iqx")
+texture_hover = ExtResource("3_5dn7f")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Background/Control/LevelGrid/Button4" unique_id=306772231]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -14.5
+offset_right = 5.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_fonts/font = ExtResource("3_sx4pg")
+text = "4"
+
+[node name="Button5" type="TextureButton" parent="Background/Control/LevelGrid" unique_id=1702339016]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_vertical = 2
+texture_normal = ExtResource("2_n0iqx")
+texture_hover = ExtResource("3_5dn7f")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Background/Control/LevelGrid/Button5" unique_id=531996749]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -14.5
+offset_right = 5.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_fonts/font = ExtResource("3_sx4pg")
+text = "5"
+
+[node name="Button6" type="TextureButton" parent="Background/Control/LevelGrid" unique_id=1617183321]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_vertical = 2
+texture_normal = ExtResource("2_n0iqx")
+texture_hover = ExtResource("3_5dn7f")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Background/Control/LevelGrid/Button6" unique_id=502697313]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -14.5
+offset_right = 5.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_fonts/font = ExtResource("3_sx4pg")
+text = "6"
+
+[node name="Button7" type="TextureButton" parent="Background/Control/LevelGrid" unique_id=44937205]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_vertical = 2
+texture_normal = ExtResource("2_n0iqx")
+texture_hover = ExtResource("3_5dn7f")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Background/Control/LevelGrid/Button7" unique_id=2093677650]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -14.5
+offset_right = 5.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_fonts/font = ExtResource("3_sx4pg")
+text = "7"
+
+[node name="Button8" type="TextureButton" parent="Background/Control/LevelGrid" unique_id=1827197368]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_vertical = 2
+texture_normal = ExtResource("2_n0iqx")
+texture_hover = ExtResource("3_5dn7f")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Background/Control/LevelGrid/Button8" unique_id=1405466458]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -14.5
+offset_right = 5.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_fonts/font = ExtResource("3_sx4pg")
+text = "8"
+
+[node name="Button9" type="TextureButton" parent="Background/Control/LevelGrid" unique_id=802896490]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_vertical = 2
+texture_normal = ExtResource("2_n0iqx")
+texture_hover = ExtResource("3_5dn7f")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Background/Control/LevelGrid/Button9" unique_id=1670043304]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -14.5
+offset_right = 5.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_fonts/font = ExtResource("3_sx4pg")
+text = "9"
+
+[node name="Button10" type="TextureButton" parent="Background/Control/LevelGrid" unique_id=919937800]
+texture_filter = 1
+custom_minimum_size = Vector2(40, 50)
+layout_mode = 2
+size_flags_vertical = 2
+texture_normal = ExtResource("2_n0iqx")
+texture_hover = ExtResource("3_5dn7f")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Background/Control/LevelGrid/Button10" unique_id=1565641451]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.5
+offset_top = -14.5
+offset_right = 4.5
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.3, 1.3)
+theme_override_fonts/font = ExtResource("3_sx4pg")
+text = "10"

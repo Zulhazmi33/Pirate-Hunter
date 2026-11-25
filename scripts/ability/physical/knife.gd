@@ -92,5 +92,9 @@ func attach_knife(target: Node2D, current_position: Vector2) -> void:
 
 func store_player(Player: AnimatedSprite2D) -> void:
 	player = Player
+		#if throw_raycast.is_colliding():
+			#print("Clashed with wall / TileMapLayer")
+		#else:
+			#print("No collision")
 	
 #endregion

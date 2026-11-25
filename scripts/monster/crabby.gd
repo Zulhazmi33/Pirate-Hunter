@@ -4,6 +4,8 @@ extends CharacterBody2D
 var monster = preload("res://scripts/monster/monster.gd").new()
 var player: Node2D = null
 
+var is_atacking = false
+
 #endregion
 
 #region 1) -> Starter
@@ -22,9 +24,9 @@ func _physics_process(delta: float) -> void:
 	# b. detect player
 	if is_instance_valid(player):
 		if monster.detect_player(player):
-			var is_chasing = await monster.alert()
-			#if is_chasing:
-				#monster.chasing(player)
+			var is_attacking = await monster.alert_animation()
+			#if is_attacking:
+				#monster.spinning()
 				
 		else:
 			pass

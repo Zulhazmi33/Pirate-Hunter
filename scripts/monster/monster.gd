@@ -1,3 +1,4 @@
+
 extends RefCounted
 
 #region 0) -> Variable
@@ -13,7 +14,7 @@ var lifebar_energy: TextureRect
 var SPEED: float = 100.0
 
 #collision
-const attackArea_position = 25
+var attackArea_position = 25
 const detectionArea_position = 350
 
 #distance
@@ -30,15 +31,13 @@ var is_knockback: bool = false
 #health
 var HEALTH := 70 # FIX for now
 
-var total_knife: int = 0
-
 #endregion
 
 #region 1) -> Setup
 func setup(body: CharacterBody2D) -> void:
 	monster_body = body
 	start_position = body.global_position
-	
+
 	monster_sprite = body.get_node("Monster")
 	lifebar = body.get_node("lifebar_enemy")
 	lifebar_energy = body.get_node("lifebar_enemy/energy")
@@ -47,75 +46,75 @@ func setup(body: CharacterBody2D) -> void:
 
 	#hide lifebar by default
 	lifebar.hide()
-	
+
 #endregion
+
 
 #region 2) -> Process
 func _physics_process(delta: float) -> void:
-	
+
 	#region a) -> Prevent code
-		if is_alerted or is_attacked or is_dead:
-			# Still apply gravity while alerted
-			if is_alerted or is_attacked or is_dead or is_knockback:
+	if is_alerted or is_attacking or is_attacked or is_dead or is_knockback:
 
-				# Apply gravity
-				if not monster_body.is_on_floor():
-					monster_body.velocity += monster_body.get_gravity() * delta
-
-				if not is_dead:
-					monster_body.move_and_slide()
-				return
-
-	#endregion
-	
-	#region b) -> Gravity
+		# Still apply gravity while alerted
 		if not monster_body.is_on_floor():
 			monster_body.velocity += monster_body.get_gravity() * delta
+
+		if not is_dead:
+			monster_body.move_and_slide()
+
+		return
+
 	#endregion
-	
+
+	#region b) -> Gravity
+	if not monster_body.is_on_floor():
+		monster_body.velocity += monster_body.get_gravity() * delta
+	#endregion
+
 	#region c) -> Movement
-		# a. Move monster
-		monster_body.velocity.x = SPEED * DIRECTION
-		monster_body.move_and_slide()
+	# a. Move monster
+	monster_body.velocity.x = SPEED * DIRECTION
+	monster_body.move_and_slide()
 
-		# b. Run animation
-		monster_sprite.play("run")
-		
-		# c. Flip sprite
-		monster_sprite.flip_h = DIRECTION > 0
+	# b. Run animation
+	monster_sprite.play("run")
 
-		# d. Detect wall collision
-		for i in range(monster_body.get_slide_collision_count()):
-			var collision = monster_body.get_slide_collision(i)
-			var collider = collision.get_collider()
-			
-			var normal = collision.get_normal()
+	# c. Flip sprite
+	monster_sprite.flip_h = DIRECTION > 0
 
-			if collider is TileMapLayer and abs(normal.x) > 0.8:
-				DIRECTION *= -1
-				start_position = monster_body.global_position
-				return
-		
-		# c. Check movement distance
-		var distance = abs(monster_body.global_position.x - start_position.x)
-		if distance >= move_distance:
-			# d. Reverse direction
+	# d. Detect wall collision
+	for i in range(monster_body.get_slide_collision_count()):
+		var collision = monster_body.get_slide_collision(i)
+		var collider = collision.get_collider()
+		var normal = collision.get_normal()
+
+		if collider is TileMapLayer and abs(normal.x) > 0.8:
 			DIRECTION *= -1
-			# e. Reset starting position
 			start_position = monster_body.global_position
+			return
+
+	# e. Check movement distance
+	var distance = abs(monster_body.global_position.x - start_position.x)
+
+	if distance >= move_distance:
+		DIRECTION *= -1
+		start_position = monster_body.global_position
+
 	#endregion
-		
+
 	#region d) -> Direction
-		if DIRECTION > 0:
-			attack_area.position.x = attackArea_position
-			detection_area.position.x = detectionArea_position
-		else:
-			detection_area.position.x = -detectionArea_position
-			attack_area.position.x = -attackArea_position
-	
+	if DIRECTION > 0:
+		attack_area.position.x = attackArea_position
+		detection_area.position.x = detectionArea_position
+	else:
+		detection_area.position.x = -detectionArea_position
+		attack_area.position.x = -attackArea_position
+
 	#endregion
-	
+
 #endregion
+
 
 #region 3) -> Attack
 func detect_player(player: Node2D) -> bool:
@@ -135,11 +134,12 @@ func detect_player(player: Node2D) -> bool:
 	# Check whether the first object hit is the player
 	return not result.is_empty() and result.collider == player
 
-func alert() -> bool:
+func alert_animation() -> bool:
+
 	# Prevent repeated alert
-	if is_alerted or is_attacking or is_attacked  or is_dead:
+	if is_alerted or is_attacking or is_attacked or is_dead:
 		return false
-		
+
 	is_alerted = true
 
 	# 1. Stop movement
@@ -149,25 +149,63 @@ func alert() -> bool:
 	# 2. Play 'alert' animation
 	monster_sprite.play("alert")
 
-	# 3. Wait 1 seconds
+	# 3. Wait 1 second
 	await monster_body.get_tree().create_timer(1.0).timeout
-	
-	
+
 	monster_sprite.play("run")
-	
-	# 4. Resume movement
+
+	# 4. Resume movement state
 	is_alerted = false
-	
 
 	# 5. Attack
 	is_attacking = true
-	
+
 	return true
 
+func spinning() -> void:
+
+	# 1. Play attack animation
+	monster_sprite.play("attack")
+
+	var timer = 0.0
+	var duration = 2.0
+	var spin_speed = 500.0
+	var delta = 1.0 / 60.0
+
+	while timer < duration:
+
+		# 2. Move forward unless wall is encountered
+		if monster_body.is_on_wall():
+			monster_body.velocity.x = 0
+		else:
+			monster_body.velocity.x = spin_speed * DIRECTION
+
+		# 3. Apply gravity
+		if not monster_body.is_on_floor():
+			monster_body.velocity += monster_body.get_gravity() * delta
+
+		# 4. Collision-aware movement
+		monster_body.move_and_slide()
+
+		# 5. Wait for next physics frame
+		timer += delta
+		await monster_body.get_tree().physics_frame
+
+	# 6. Stop movement
+	monster_body.velocity.x = 0
+
+	# 7. Finish attacking
+	is_attacking = false
+
+	# 8. Return to run animation
+	monster_sprite.play("run")
+	
 #endregion
+
 
 #region 4) -> Attribute
 func health_reduce(DAMAGE: float, FORCE: float, player_position: Vector2) -> void:
+
 	if is_dead:
 		return
 
@@ -175,17 +213,17 @@ func health_reduce(DAMAGE: float, FORCE: float, player_position: Vector2) -> voi
 	var direction = sign(monster_body.global_position.x - player_position.x)
 	is_knockback = true
 	monster_body.velocity.x = direction * FORCE
-	
-	# a. die
+
+	# b. Die
 	if (HEALTH - DAMAGE) < 32:
 		is_dead = true
 		lifebar_energy.hide()
 		monster_sprite.play("dead")
 		await monster_sprite.animation_finished
 		lifebar.hide()
-		monster_body.set_collision_mask_value(1, false) #let playaer pass thrugh
-		
-	# b. take damage
+		monster_body.set_collision_mask_value(1, false)
+
+	# c. Take damage
 	else:
 		HEALTH -= DAMAGE
 		lifebar_energy.size.x = HEALTH
@@ -196,5 +234,3 @@ func health_reduce(DAMAGE: float, FORCE: float, player_position: Vector2) -> voi
 		is_attacked = false
 
 #endregion
-
-	

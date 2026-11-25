@@ -38,5 +38,5 @@ func _on_attack_area_body_entered(body):
 			body.monster.health_reduce(DAMAGE, FORCE, global_position)
 			queue_free()
 		
-func _on_attack_area_body_exited(body):
+func _on_attack_area_body_exited():
 	enemy = null

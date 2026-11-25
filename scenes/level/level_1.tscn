@@ -573,16 +573,16 @@ tile_set = SubResource("TileSet_cgyim")
 [node name="Monster" type="Node2D" parent="." unique_id=724399020]
 
 [node name="fierceTooth1" parent="Monster" unique_id=2086322676 instance=ExtResource("12_vigbq")]
-position = Vector2(601, 989)
+position = Vector2(1195, 590)
 
 [node name="fierceTooth2" parent="Monster" unique_id=1429502090 instance=ExtResource("12_vigbq")]
 position = Vector2(2064, 449)
 
 [node name="pinkStar1" parent="Monster" unique_id=1762398864 instance=ExtResource("13_m3417")]
-position = Vector2(1277, 959)
+position = Vector2(683, 981)
 
 [node name="crabby1" parent="Monster" unique_id=1754698802 instance=ExtResource("14_0alxl")]
-position = Vector2(949, 595)
+position = Vector2(1507, 978)
 
 [node name="Collectible" type="Node2D" parent="." unique_id=1211113811]
 

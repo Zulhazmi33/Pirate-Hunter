@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bdbqxq5i8qtw6"]
 
 [ext_resource type="Texture2D" uid="uid://bec7iweb34jak" path="res://assets/images/popup/menu.png" id="1_gv2bd"]
-[ext_resource type="Texture2D" uid="uid://c70epagiu1hab" path="res://assets/images/popup/button_full.png" id="2_ojwgl"]
+[ext_resource type="Texture2D" uid="uid://c70epagiu1hab" path="res://assets/images/popup/button.png" id="2_ojwgl"]
 
 [node name="Menu" type="CanvasLayer" unique_id=656236035]
 

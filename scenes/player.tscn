@@ -30,9 +30,9 @@
 [ext_resource type="Texture2D" uid="uid://b5gnlwgp0ssaq" path="res://assets/images/player/attack/sword_effect/aerial_1.png" id="19_a38lo"]
 [ext_resource type="Texture2D" uid="uid://mhgrgjo86hpu" path="res://assets/images/player/attack/sword_effect/aerial_2.png" id="20_4ni07"]
 [ext_resource type="PackedScene" uid="uid://cy3ps5xs2mfi4" path="res://scenes/lifebar/lifebar_player.tscn" id="23_4ni07"]
-[ext_resource type="PackedScene" uid="uid://dclhnnl03nv17" path="res://scenes/screen/swap.tscn" id="28_pf23h"]
-[ext_resource type="PackedScene" uid="uid://comx8i1fi270x" path="res://scenes/screen/knife.tscn" id="33_487ah"]
-[ext_resource type="PackedScene" uid="uid://bdbqxq5i8qtw6" path="res://scenes/popup/menu.tscn" id="33_md1ol"]
+[ext_resource type="PackedScene" uid="uid://dclhnnl03nv17" path="res://scenes/icon/swap.tscn" id="28_pf23h"]
+[ext_resource type="PackedScene" uid="uid://comx8i1fi270x" path="res://scenes/icon/knife.tscn" id="33_487ah"]
+[ext_resource type="PackedScene" uid="uid://bdbqxq5i8qtw6" path="res://scenes/screen/menu.tscn" id="33_md1ol"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wnwbv"]
 atlas = ExtResource("4_f1ej7")
@@ -1128,7 +1128,11 @@ position = Vector2(-1, -7.25)
 shape = SubResource("RectangleShape2D_o5uju")
 
 [node name="ThrowSpawn" type="Marker2D" parent="." unique_id=1075141554]
-position = Vector2(70, 0)
+position = Vector2(75, 0)
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=1010083515]
+target_position = Vector2(90, 0)
+collision_mask = 10
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1429096565]
 visible = false
@@ -1138,6 +1142,7 @@ collision_mask = 2
 shape = SubResource("RectangleShape2D_ibbfc")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1924727366]
+visible = false
 collision_mask = 66
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=41699245]
@@ -1217,12 +1222,16 @@ limit_right = 3840
 limit_bottom = 1440
 
 [node name="Lifebar_player" parent="Camera2D" unique_id=1192740705 instance=ExtResource("23_4ni07")]
+visible = false
 
 [node name="Icon" parent="Camera2D" unique_id=1802760569 instance=ExtResource("28_pf23h")]
+visible = false
 
 [node name="Knife" parent="Camera2D" unique_id=1457573565 instance=ExtResource("33_487ah")]
+visible = false
 
 [node name="Menu" parent="Camera2D" unique_id=656236035 instance=ExtResource("33_md1ol")]
+visible = false
 
 [connection signal="animation_finished" from="Player" to="." method="_on_player_animation_finished"]
 [connection signal="frame_changed" from="Player" to="." method="_on_player_frame_changed"]

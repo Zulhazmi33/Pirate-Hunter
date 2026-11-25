@@ -7,7 +7,7 @@ var monster_names = [
     "crabby"
 ]
 func monster_list(body: Node) -> bool:
-	for name in monster_names:
-		if body.name.begins_with(name):
+	for monst in monster_names:
+		if body.name.begins_with(monst):
 			return true
 	return false

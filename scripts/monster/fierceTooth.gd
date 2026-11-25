@@ -22,7 +22,7 @@ func _physics_process(delta: float) -> void:
 	# b. detect player
 	if is_instance_valid(player):
 		if monster.detect_player(player):
-			var is_chasing = await monster.alert()
+			var is_chasing = await monster.alert_animation()
 			#if is_chasing:
 				#monster.chasing(player)
 				

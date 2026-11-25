@@ -39,5 +39,5 @@ func _on_attack_area_body_entered(body):
 		if !body.monster.is_dead:
 			queue_free()
 		
-func _on_attack_area_body_exited(body):
+func _on_attack_area_body_exited():
 	enemy = null

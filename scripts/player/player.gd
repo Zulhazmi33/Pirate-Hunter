@@ -1,5 +1,6 @@
 
 extends CharacterBody2D
+@onready var ray_cast_2d: RayCast2D = $RayCast2D
 
 #region 0) -> Variable
 # 1. Import
@@ -62,6 +63,12 @@ func _process(delta: float) -> void:
 
 #region 3) -> Physics
 func _physics_process(delta: float) -> void:
+
+	#region 0) -> Stop all action
+		if attribute.is_dead:
+			return
+			
+	#endregion
 		
 	#region a) -> Built-in
 		move_and_slide()
@@ -90,9 +97,11 @@ func _physics_process(delta: float) -> void:
 		if direction == 1.0:
 			player.flip_h = false
 			attack_area.position.x = attackArea_position
+			ray_cast_2d.target_position.x = 75
 		elif direction == -1.0:
 			player.flip_h = true
 			attack_area.position.x = -attackArea_position
+			ray_cast_2d.target_position.x = -75
 	#endregion
 
 	#region d) -> Attack (physical)
@@ -146,7 +155,7 @@ func _physics_process(delta: float) -> void:
 	#endregion
 	
 	#region LAST) -> Animation
-		if is_attacking:        
+		if is_attacking or attribute.is_attacked:        
 			pass
 			
 		#Jump
@@ -182,6 +191,11 @@ func _on_player_frame_changed() -> void:
 			water_magic.shoot(player, icon.getType())
 		elif player.animation == "throw":
 			physical.throw(player)
+			
+			#if ray_cast_2d.is_colliding():
+				#print("Clashed with wall / TileMapLayer")
+			#else:
+				#print("No collision")
 		elif player.animation == "attack_1":
 			for body in attack_area.get_overlapping_bodies():
 				# a. collect 'knife'
@@ -192,6 +206,7 @@ func _on_player_frame_changed() -> void:
 					for enemy in attack_area.get_overlapping_bodies():
 						if Global.monster_list(enemy):
 							enemy.monster.health_reduce(DAMAGE, FORCE, global_position)
+			
 			
 # c. detect and 'stored' enemy's data
 func _on_detection_area_body_entered(body: Node2D) -> void:

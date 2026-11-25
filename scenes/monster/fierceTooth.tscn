@@ -396,7 +396,6 @@ visible = false
 shape = SubResource("RectangleShape2D_4ruf7")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=629259509]
-visible = false
 
 [node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=1681160855]
 position = Vector2(0, 1)
